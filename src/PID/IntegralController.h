@@ -1,23 +1,24 @@
 // Prevents steady state error
 #ifndef INTEGRALCONTROLLER_H
+#define INTEGRALCONTROLLER_H
 #include "Controller.h"
 #define INTEGRATOR_SIZE 20
 
 enum IntegralScope {NARROW, WIDE};
 
-class IntegralController : Controller{
+class IntegralController : public Controller{
 
   public:
     float Ki;
-    IntegralScope scope = NARROW;
+    IntegralScope scope = WIDE;
 
-    IntegralController(const float Ki, const float &error_signal, const IntegralScope scope): Controller(error_signal) {
+    IntegralController(const float Ki, const float &error_signal, const IntegralScope scope = WIDE): Controller(error_signal) {
       this->scope = scope;
       this->Ki = Ki;
     };
 
 // later obfuscate these functions
-    void calculate_output(const IntegralScope){
+    void calculate_output(){
       if (this->scope == NARROW){
 	calculate_output_narrow_scope();
       }

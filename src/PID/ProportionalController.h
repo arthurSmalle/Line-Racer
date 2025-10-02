@@ -1,11 +1,12 @@
 #ifndef PROPORTIONALCONTROLLER_H
+#define PROPORTIONALCONTROLLER_H
 #include "Controller.h"
-class ProportionalController : Controller{
+class ProportionalController : public Controller{
 
   public:
     float Kp;
 
-    ProportionalController(float Kp, float &error_signal): Controller(error_signal) {
+    ProportionalController(float Kp, const float &error_signal): Controller(error_signal) {
       this->Kp = Kp;
     };
 
