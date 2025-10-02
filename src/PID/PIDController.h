@@ -4,17 +4,13 @@
 
 class PIDController{
   public:
-    float Kp;
-    float Ki;
-    float Kd;
+    ProportionalController PController;
+    IntegralController IController;
+//    DerivativeController DController;
     float error_signal = 0;
     float output_signal = 0;
 
-    PIDController(const float Kp, const float Ki, const float Kd, float &error_signal, float &output_signal){
-      this->Kp = Kp;
-      this->Ki = Ki;
-      this->Kd = Kd;
+    PIDController(const float Kp, const float Ki, const float Kd, float &error_signal) : PController(Kp, error_signal), IController(Ki, error_signal){
       this->error_signal = error_signal;
-      this->output_signal = output_signal;
     };
 };
