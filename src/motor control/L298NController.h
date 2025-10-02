@@ -13,7 +13,8 @@ class L298NController{
     // implement setter and getter functions for the values
     void set_throttle(const float throttle);
 
-    L298NController(const uint8_t motor_pin_1, const uint8_t motor_pin_2){
+    L298NController(const uint8_t motor_pin_1, const uint8_t motor_pin_2, const float throttle_limiter = 100){
+      this->throttle_limiter = throttle_limiter;
       this->motor_pin_1 = motor_pin_1;
       this->motor_pin_2 = motor_pin_2;
     }
