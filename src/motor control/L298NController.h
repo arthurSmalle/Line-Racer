@@ -1,6 +1,7 @@
 // class to drive the motors (only to drive the  motors not to adjust the angle of the robot directly)
 #ifndef  L298NCONTROLLER_H
 #include <Arduino.h>
+#define MAX_PWM_VALUE 255 // maximum value the pwm library takes (maximum pulse width)
 
 class L298NController{
   public:

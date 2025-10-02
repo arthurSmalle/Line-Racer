@@ -4,8 +4,8 @@
       // check if the throttle is set to 0 (evade all other logic)
       if (throttle == 0.0){
 	if (this->en_hard_stop){
-	  analogWrite(this->motor_pin_1 , 255);
-	  analogWrite(this->motor_pin_2 , 255);
+	  analogWrite(this->motor_pin_1 , MAX_PWM_VALUE);
+	  analogWrite(this->motor_pin_2 , MAX_PWM_VALUE);
 	} else{
 	  analogWrite(this->motor_pin_1 , 0);
 	  analogWrite(this->motor_pin_2 , 0);
@@ -14,7 +14,7 @@
       }
 
       // pwm in the arduino standard lib is expressed in values from 0 to 255 => conversion is needed if working with %
-      int actual_throttle = int((255 / this->throttle_limiter) * throttle);
+      int actual_throttle = int((MAX_PWM_VALUE / this->throttle_limiter) * throttle);
       if (this->clockwise){
 	analogWrite(this->motor_pin_1 , actual_throttle);
 	analogWrite(this->motor_pin_2, 0);
