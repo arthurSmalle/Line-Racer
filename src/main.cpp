@@ -1,6 +1,7 @@
 #include <Arduino.h>
 
 #include "PID/PIDController.h"
+#include "motor control/L298NController.h"
 
 float error_signal;
 float output_signal;
