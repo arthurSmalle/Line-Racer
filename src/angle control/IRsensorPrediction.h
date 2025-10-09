@@ -23,6 +23,10 @@ class IRSensorPrediction{
 	float prediciton = (-1*ir_array[2]) * tan(SYMM_TO_IR/WHEELS_TO_IR);
 	last_prediction = prediciton;
 	return last_prediction;
+      } 
+      // other casses
+      else {
+	return 0;
       }
     }
 

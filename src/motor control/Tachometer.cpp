@@ -5,6 +5,11 @@
 void Tachometer::enable(){
   this->is_enabled = true;
   just_enabled = true;
+  if (id == 0){
+    attachInterrupt(digitalPinToInterrupt(pin), set_new_prev_time0, RISING);
+  } else {
+    attachInterrupt(digitalPinToInterrupt(pin), set_new_prev_time1, RISING);
+  }
 }
 
 void Tachometer::disable(){
@@ -21,6 +26,6 @@ tacho_err_t Tachometer::calculate_rpm(){
     return tacho_err_no_prev;
   }
   // continue if there is no problem
-  this->rpm = float(MILLIS_IN_MINUTE) / (millis() - this->prev_time);
+  this->rpm = float(MILLIS_IN_MINUTE) / (millis() - this->prev_time[id]);
 }
 
