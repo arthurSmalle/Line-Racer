@@ -2,6 +2,9 @@
 #include <Arduino.h>
 #define MILLIS_IN_MINUTE 3600
 
+// initialse the static var
+volatile unsigned long Tachometer::prev_time[2] = {0};
+
 void Tachometer::enable(){
   this->is_enabled = true;
   just_enabled = true;
@@ -15,6 +18,12 @@ void Tachometer::enable(){
 void Tachometer::disable(){
   this->is_enabled = false;
   just_enabled = false;
+    if (id == 0){
+      detachInterrupt(digitalPinToInterrupt(pin));
+    }
+    else{
+      detachInterrupt(digitalPinToInterrupt(pin));
+    }
 }
 
 tacho_err_t Tachometer::calculate_rpm(){
@@ -26,6 +35,7 @@ tacho_err_t Tachometer::calculate_rpm(){
     return tacho_err_no_prev;
   }
   // continue if there is no problem
-  this->rpm = float(MILLIS_IN_MINUTE) / (millis() - this->prev_time[id]);
+  this->rpm = float(MILLIS_IN_MINUTE) / (millis() - prev_time[id]);
+  return tacho_ok;
 }
 

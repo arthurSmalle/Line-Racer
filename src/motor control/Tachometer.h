@@ -16,7 +16,6 @@ class Tachometer{
     bool get_en_status(){return is_enabled;}
 
     Tachometer(const uint8_t pin,const uint8_t id){
-      object_amount++;
       this->pin = pin;
       this->id = id;
     }
@@ -28,7 +27,6 @@ class Tachometer{
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
     static volatile unsigned long prev_time[2]; // previous time the tachometer measured a rotation
-    static int object_amount;
     static void set_new_prev_time0(){prev_time[0] = millis();};
     static void set_new_prev_time1(){prev_time[1] = millis();};
 };

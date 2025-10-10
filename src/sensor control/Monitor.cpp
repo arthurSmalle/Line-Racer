@@ -14,7 +14,7 @@ void AngleMonitor::refresh_data(){
   // calculate estimate angle based on IR reading
     bool ir_pin0 = digitalRead(IR_PIN0);
     bool ir_pin1 = digitalRead(IR_PIN1);
-    bool ir_pin2 = digitalRead(IR_PIN2);
+//    bool ir_pin2 = digitalRead(IR_PIN2);
     float max_angle = tan(SYMM_TO_IR / WHEELS_TO_IR);
   #endif
 };
