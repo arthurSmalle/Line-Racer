@@ -8,10 +8,6 @@
 
 class PIDController: public Controller{
   public:
-    ProportionalController PController;
-    IntegralController IController;
-    DerivativeController DController;
-
     PIDController(const float Kp, const float Ki, const float Kd, const float &error_signal): Controller(error_signal), PController(Kp, error_signal), IController(Ki, error_signal), DController(Kd, error_signal){
       this->error_signal = error_signal;
     };
@@ -39,5 +35,11 @@ class PIDController: public Controller{
       this->IController.set_error_signal(error_signal);
       this->DController.set_error_signal(error_signal);
     }
+  private: 
+    ProportionalController PController;
+    IntegralController IController;
+    DerivativeController DController;
+
+    // maybe implement a set point and  compute function? (removing this from the main function)
 };
 #endif

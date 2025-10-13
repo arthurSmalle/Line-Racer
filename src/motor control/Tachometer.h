@@ -1,33 +1,41 @@
-// FOR THE MOMENT THERE CAN ONLY BE 2 TACHOMETER OBJECTS
+// code specificly used for the DFRobot rotary encoder
 #ifndef TACHOMETER_H
 #define TACHOMETER_H
 #include <Arduino.h>
-#include <cstdint>
 
-enum tacho_err_t {tacho_ok, tacho_err_not_en, tacho_err_no_prev};
+#define MAX_INSTANCE_AMOUNT 2
+
 
 class Tachometer{
   public:
+    void calculate_rpm();
+    uint8_t get_id(){return this->id;};
+    float get_rpm(){return this->rpm;}
     void enable();
     void disable();
-    tacho_err_t calculate_rpm();
-    float get_rpm(){return this->rpm;}
 
-    bool get_en_status(){return is_enabled;}
-
-    Tachometer(const uint8_t pin,const uint8_t id){
-      this->pin = pin;
-      this->id = id;
+    Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id){
+      if (id < MAX_INSTANCE_AMOUNT && id >= 0){
+	this->id = id;
+      }
+      else {
+	this->id = MAX_INSTANCE_AMOUNT; // if invalid id set to max id
+      }
+      pinsA[this->id] = pinA;
+      pinsB[this->id] = pinB;
     }
+
   private:
-    uint8_t pin;
     float rpm = 0;
-    bool is_enabled = false;
-    bool just_enabled = false;
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
-    static volatile unsigned long prev_time[2]; // previous time the tachometer measured a rotation
-    static void set_new_prev_time0(){prev_time[0] = millis();};
-    static void set_new_prev_time1(){prev_time[1] = millis();};
+    static uint8_t pinsA[MAX_INSTANCE_AMOUNT];
+    static uint8_t pinsB[MAX_INSTANCE_AMOUNT];
+    static volatile unsigned long duration[MAX_INSTANCE_AMOUNT]; // previous time the tachometer measured a rotation
+    static volatile bool directions[MAX_INSTANCE_AMOUNT]; // true = forward, false = backward
+    static volatile uint8_t last_states[MAX_INSTANCE_AMOUNT];
+    static void wheel_speed(const uint8_t id);
+    static void wheel_speed_id0(){wheel_speed(0);};
+    static void wheel_speed_id1(){wheel_speed(1);};
 };
 #endif
