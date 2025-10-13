@@ -1,6 +1,6 @@
 #include "Tachometer.h"
 #include <Arduino.h>
-#define MILLIS_IN_MINUTE 6000
+#define MILLIS_IN_MINUTE 60000
 #define GEAR_RATIO 120
 
 // initialse the static var
