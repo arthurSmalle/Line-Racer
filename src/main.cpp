@@ -15,10 +15,10 @@ float error_rpm_l = 0;
 float error_rpm_r = 0;
 
 IRSensorPrediction ir_sens = IRSensorPrediction();
-L298NController motor_l = L298NController(MOTOR_L1, MOTOR_L2, 50);
+L298NController motor_l = L298NController(MOTOR_L1, MOTOR_L2, 100);
 L298NController motor_r = L298NController(MOTOR_R1,MOTOR_R2, 50);
-Tachometer tacho_l = Tachometer(TACHO_PIN0, 0, 1);
-Tachometer tacho_r = Tachometer(TACHO_PIN1, 3, 4);
+Tachometer tacho_l = Tachometer(TACHO_PIN0A, TACHO_PIN0B, 0);
+//Tachometer tacho_r = Tachometer(TACHO_PIN1A, TACHO_PIN1B, 1);
 
 PIDController angle_pid = PIDController(0.7, 0.3, 0.1, error_signal);
 PIDController motor_l_pid = PIDController(0.7, 0.3, 0.1, error_signal);
@@ -28,7 +28,7 @@ PIDController motor_r_pid = PIDController(0.7, 0.3, 0.1, error_signal);
 void setup(){
   Serial.begin(115200);
   tacho_l.enable();
-  tacho_r.enable();
+ // tacho_r.enable();
 }
 
 
@@ -59,12 +59,19 @@ void drive_motor_ol(){
   motor_r.set_throttle(50 + error_signal);
 }
 
-void loop(){
-  drive_motor_cl();
+void test_tachometer(){
+  float set_point = 1;
+  motor_l.set_throttle(30);
+  tacho_l.calculate_rpm();
+  rpm_l = tacho_l.get_rpm();
+  Serial.println("RPM main loop:" + String(rpm_l));
+}
 
-  // for testing purposses (no irl usecase BUT AFFECTS THE PERFORMANCE OF HW)
-  error_signal = error_signal - output_signal * 0.1;
-  Serial.println("pid value" + String(output_signal));
-  Serial.println("Error: " + String(error_signal));
-  delay(250);
+void loop(){
+  test_tachometer();
+  // // for testing purposses (no irl usecase BUT AFFECTS THE PERFORMANCE OF HW)
+  // error_signal = error_signal - output_signal * 0.1;
+  // Serial.println("pid value" + String(output_signal));
+  // Serial.println("Error: " + String(error_signal));
+  // delay(250);
 }

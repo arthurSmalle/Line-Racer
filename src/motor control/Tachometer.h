@@ -31,9 +31,14 @@ class Tachometer{
     uint8_t id;
     static uint8_t pinsA[MAX_INSTANCE_AMOUNT];
     static uint8_t pinsB[MAX_INSTANCE_AMOUNT];
-    static volatile unsigned long duration[MAX_INSTANCE_AMOUNT]; // previous time the tachometer measured a rotation
+
+    static volatile unsigned long last_time[MAX_INSTANCE_AMOUNT]; // list time in ms since the last pulse 
+    static volatile unsigned long duration[MAX_INSTANCE_AMOUNT]; // time between two pulses
+    static volatile uint8_t sample_counter[MAX_INSTANCE_AMOUNT]; // keeps count for when to sample
+
     static volatile bool directions[MAX_INSTANCE_AMOUNT]; // true = forward, false = backward
-    static volatile uint8_t last_states[MAX_INSTANCE_AMOUNT];
+    static volatile uint8_t last_states[MAX_INSTANCE_AMOUNT]; // last state of the pulse (to check forward or backward movement
+
     static void wheel_speed(const uint8_t id);
     static void wheel_speed_id0(){wheel_speed(0);};
     static void wheel_speed_id1(){wheel_speed(1);};
