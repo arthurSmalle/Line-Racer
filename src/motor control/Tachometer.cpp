@@ -1,7 +1,8 @@
 #include "Tachometer.h"
 #include <Arduino.h>
 #define MILLIS_IN_MINUTE 60000
-#define GEAR_RATIO 120
+#define GEAR_RATIO 120 
+#define READ_RESOLUTION 16
 
 // initialse the static var
 uint8_t Tachometer::pinsA[MAX_INSTANCE_AMOUNT] = {0};
@@ -12,15 +13,19 @@ volatile uint8_t Tachometer::sample_counter[MAX_INSTANCE_AMOUNT] = {0}; // keeps
 volatile bool Tachometer::directions[MAX_INSTANCE_AMOUNT] = {0}; // true = forward, false = backward
 volatile uint8_t Tachometer::last_states[MAX_INSTANCE_AMOUNT] = {0};
 
+// THERE SHOULD BE A CONSIDIRABLE DELAY BETWEEN CALLING THIS FUNCTION PERIODICLY
 void Tachometer::calculate_rpm(){
+  unsigned long currrent_time = millis();
+  float rotations = float(duration[id]) / (GEAR_RATIO * READ_RESOLUTION);
+  unsigned long passed_time = currrent_time - last_time[id];
+  rpm = (rotations / float(passed_time)) * MILLIS_IN_MINUTE;
 #ifdef DEBUG
   Serial.println("=== TACHODEBUG ===");
   Serial.println("duration:" + String(duration[id]));
+  Serial.println("rotations:" + String(rotations));
+  Serial.println("passed_time:" + String(passed_time));
   Serial.println("rpm:" + String(this->rpm));
 #endif
-//  this->rpm =  float(MILLIS_IN_MINUTE * TACHO_SAMPLE_SIZE) / (GEAR_RATIO * duration[this->id] * 2);  // times 2 because makes 2 measurements for each rotation
-  unsigned long currrent_time = millis();
-  this->rpm = duration[id] * (float(currrent_time - last_time[id]) / (MILLIS_IN_MINUTE * GEAR_RATIO * 2));
   last_time[id] = currrent_time;
   duration[id] = 0;
 }
@@ -59,10 +64,11 @@ void Tachometer::wheel_speed(const uint8_t id){
       directions[id] = true;
     }
   }
-  last_states[id] = current_state;
-  if (!directions[id]){
-    duration[id]++;
-  } else {
-    duration[id]--;
-  }
+  duration[id]++;
+  // last_states[id] = current_state;
+  // if (!directions[id]){
+  //   duration[id]++;
+  // } else {
+  //   duration[id]--;
+  // }
 }
