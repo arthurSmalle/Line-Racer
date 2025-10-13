@@ -33,19 +33,18 @@ void setup(){
 
 
 // try to follow the line with the rpm of the motors also controlled in closed lope configuration
-void drive_motor_cl(){
-  // drive the motors using rpm instead of %
-  
-  // calculate error on the rpm 
-  error_rpm_l = base_rpm - rpm_l;
-  error_rpm_r = base_rpm - rpm_r;
+void drive_motor_cl(const float set_point){
+  tacho_l.calculate_rpm();
+  rpm_l = tacho_l.get_rpm();
+  // calculate error on the rpm
+  error_rpm_l = set_point - rpm_l;
+
+  motor_l_pid.set_error_signal(error_rpm_l);
+  motor_l_pid.get_output_signal();
   
   // drive the motor with the error signal
-  motor_l.set_throttle(error_rpm_l);
-  motor_r.set_throttle(error_rpm_r);
-#ifdef DEBUG
-  Serial.println("rpm: "+ String(rpm_l));
-#endif
+  motor_l_pid.calculate_output();
+  motor_l.set_throttle(motor_l_pid.get_output_signal());
 }
 
 // try to follow the line with the motors in open loop configuration
@@ -61,17 +60,18 @@ void drive_motor_ol(){
 
 void test_tachometer(){
   float set_point = 1;
-  motor_l.set_throttle(30);
+  motor_l.set_throttle(20);
   tacho_l.calculate_rpm();
   rpm_l = tacho_l.get_rpm();
   Serial.println("RPM main loop:" + String(rpm_l));
 }
 
 void loop(){
-  test_tachometer();
+  //test_tachometer();
+  drive_motor_cl(50);
   // // for testing purposses (no irl usecase BUT AFFECTS THE PERFORMANCE OF HW)
   // error_signal = error_signal - output_signal * 0.1;
   // Serial.println("pid value" + String(output_signal));
   // Serial.println("Error: " + String(error_signal));
-  // delay(250);
+  delay(100);
 }
