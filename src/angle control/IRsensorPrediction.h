@@ -14,7 +14,7 @@ class IRSensorPrediction{
     void get_ir_readings(){
       ir_array[0] = digitalRead(IR_PIN0);
       ir_array[1] = digitalRead(IR_PIN1);
-      #if IR_AMOUNT >= 2
+      #if IR_AMOUNT >= 3
       ir_array[2] = digitalRead(IR_PIN2);
       #endif
     }
@@ -25,18 +25,17 @@ class IRSensorPrediction{
     float predict_angle(){
       float prediction = 0;
       if (ir_array[0] == HIGH){
-	prediciton = -1 * tan(SYMM_TO_IR/WHEELS_TO_IR);
+	 prediction= -1 * tan(SYMM_TO_IR/WHEELS_TO_IR);
 	last_prediction = prediction;
       } 
       else if (ir_array[1] == HIGH){
-	prediciton = tan(SYMM_TO_IR/WHEELS_TO_IR);
+	prediction = tan(SYMM_TO_IR/WHEELS_TO_IR);
 	last_prediction = prediction;
       }
 
       return prediction;
       }
-    }
-  private:
+    private:
   #endif
 
   #if IR_AMOUNT == 3
