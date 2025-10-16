@@ -4,10 +4,11 @@
 #include "motor control/L298NController.h"
 #include "motor control/Tachometer.h"
 #include "motor control/ControlledMotorDriver.h"
-#include "angle control/IRsensorPrediction.h"
+#include "angle control/IRSensorPrediction.h"
 
   float error_signal = 0;
   float output_signal;
+  float base_rpm = 30;
 
   float rpm_l = 0;
   float rpm_r = 0;
@@ -71,8 +72,18 @@ void test_tachometer(){
 int counter = 0;
 
 void loop(){
+  // update motor values
   motor_cl_l.update();
   motor_cl_r.update();
+
+  // get the angle
+  float angle = ir_sens.predict_angle();
+  error_signal =  0 - angle;
+  angle_pid.set_error_signal(error_signal);
+  output_signal = angle_pid.get_output_signal();
+
+  motor_cl_l.set_set_point(base_rpm - output_signal);
+  motor_cl_r.set_set_point(base_rpm + output_signal);
 
   delay(100);
 }

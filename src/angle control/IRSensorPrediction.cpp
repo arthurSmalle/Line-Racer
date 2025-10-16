@@ -1,0 +1,36 @@
+#include "IRSensorPrediction.h"
+
+float IRSensorPrediction::predict_angle()
+#if IR_AMOUNT == 2
+{
+      float prediction = 0;
+      if (ir_array[0] == HIGH){
+	 prediction= -1 * tan(SYMM_TO_IR/WHEELS_TO_IR);
+	last_prediction = prediction;
+      } 
+      else if (ir_array[1] == HIGH){
+	prediction = tan(SYMM_TO_IR/WHEELS_TO_IR);
+	last_prediction = prediction;
+      }
+
+      return prediction;
+      }
+#endif
+#if IR_AMOUNT == 3
+{
+      if (ir_array[1] && ir_array[2] == LOW){
+	last_prediction = 0;
+	return last_prediction;
+
+      } else if ((ir_array[1] xor ir_array[2]) == HIGH){
+
+	float prediciton = (-1*ir_array[2]) * tan(SYMM_TO_IR/WHEELS_TO_IR);
+	last_prediction = prediciton;
+	return last_prediction;
+      } 
+      // other casses
+      else {
+	return 0;
+      }
+    }
+#endif
