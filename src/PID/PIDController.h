@@ -35,6 +35,13 @@ class PIDController: public Controller{
       this->IController.set_error_signal(error_signal);
       this->DController.set_error_signal(error_signal);
     }
+
+    float update(const float &error_signal){
+      set_error_signal(error_signal);
+      calculate_output();
+      return get_output_signal();
+    }
+
   private: 
     ProportionalController PController;
     IntegralController IController;

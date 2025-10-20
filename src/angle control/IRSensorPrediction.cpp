@@ -1,20 +1,33 @@
 #include "IRSensorPrediction.h"
+#include <Arduino.h>
 
 float IRSensorPrediction::predict_angle()
 #if IR_AMOUNT == 2
 {
       float prediction = 0;
-      if (ir_array[0] == HIGH){
-	 prediction= -1 * tan(SYMM_TO_IR/WHEELS_TO_IR);
+
+      if (ir_array[0] == this->sensitive_to){
+	 prediction=  tan(SYMM_TO_IR/WHEELS_TO_IR);
 	last_prediction = prediction;
-      } 
-      else if (ir_array[1] == HIGH){
-	prediction = tan(SYMM_TO_IR/WHEELS_TO_IR);
+#ifdef DEBUG
+Serial.println("+++++++++++++++++");
+Serial.println("LEFT SENSOR TRIGGERED");
+Serial.println("+++++++++++++++++");
+#endif
+      }
+
+      if (ir_array[1] == this->sensitive_to){
+	prediction = -1 *tan(SYMM_TO_IR/WHEELS_TO_IR);
 	last_prediction = prediction;
+#ifdef DEBUG
+Serial.println("+++++++++++++++++");
+Serial.println("RIGHT SENSOR TRIGGERED");
+Serial.println("+++++++++++++++++");
+#endif
       }
 
       return prediction;
-      }
+}
 #endif
 #if IR_AMOUNT == 3
 {
@@ -32,5 +45,5 @@ float IRSensorPrediction::predict_angle()
       else {
 	return 0;
       }
-    }
+}
 #endif

@@ -11,6 +11,7 @@ class ControlledMotorDriver{
     //******************//
 
     void set_set_point(const float set_point){this->set_point = set_point;} // set point in rpm
+    void set_clock_wise(bool clk){this->physical_driver.clockwise = clk;};
 									 
     //******************//
     // getter functions //

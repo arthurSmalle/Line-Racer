@@ -18,6 +18,8 @@ class L298NController{
       this->throttle_limiter = throttle_limiter;
       this->motor_pin_1 = motor_pin_1;
       this->motor_pin_2 = motor_pin_2;
+      pinMode(motor_pin_1, OUTPUT);
+      pinMode(motor_pin_2, OUTPUT);
     }
 
   private:

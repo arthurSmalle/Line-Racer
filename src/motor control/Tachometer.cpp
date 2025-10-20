@@ -6,12 +6,14 @@
 
 // initialse the static var
 uint8_t Tachometer::pinsA[MAX_INSTANCE_AMOUNT] = {0};
+#if SINGLE_PIN_TACHO == 0
 uint8_t Tachometer::pinsB[MAX_INSTANCE_AMOUNT] = {0};
+volatile bool Tachometer::directions[MAX_INSTANCE_AMOUNT] = {0}; // true = forward, false = backward
+volatile uint8_t Tachometer::last_states[MAX_INSTANCE_AMOUNT] = {0};
+#endif
 volatile unsigned long Tachometer::last_time[MAX_INSTANCE_AMOUNT] = {0}; // list time in ms since the last pulse 
 volatile unsigned long Tachometer::duration[MAX_INSTANCE_AMOUNT] = {0};
 volatile uint8_t Tachometer::sample_counter[MAX_INSTANCE_AMOUNT] = {0}; // keeps count for when to sample
-volatile bool Tachometer::directions[MAX_INSTANCE_AMOUNT] = {0}; // true = forward, false = backward
-volatile uint8_t Tachometer::last_states[MAX_INSTANCE_AMOUNT] = {0};
 
 // THERE SHOULD BE A CONSIDIRABLE DELAY BETWEEN CALLING THIS FUNCTION PERIODICLY
 void Tachometer::calculate_rpm(){
@@ -31,7 +33,10 @@ void Tachometer::calculate_rpm(){
 }
 
 void Tachometer::enable(){
-  pinMode(Tachometer::pinsB[this->id], INPUT);  
+#if SINGLE_PIN_TACHO == 0
+  pinMode(Tachometer::pinsB[this->id], INPUT);
+#endif
+
   if (this->id == 0){
     attachInterrupt(digitalPinToInterrupt(Tachometer::pinsA[this->id]), wheel_speed_id0, CHANGE);
   } else if (this->id == 1){
@@ -55,6 +60,7 @@ void Tachometer::wheel_speed(const uint8_t id){
   // }
 
   // check the direction of the rotation
+#if SINGLE_PIN_TACHO == 0
   uint8_t current_state = digitalRead(pinsA[id]);
   if ((last_states[id] == LOW) && (current_state == HIGH)){
     uint8_t  val = digitalRead(pinsB[id]);
@@ -64,6 +70,7 @@ void Tachometer::wheel_speed(const uint8_t id){
       directions[id] = true;
     }
   }
+#endif
   duration[id]++;
   // last_states[id] = current_state;
   // if (!directions[id]){
