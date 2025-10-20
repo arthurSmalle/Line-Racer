@@ -2,6 +2,7 @@
 #include "PID/PIDController.h"
 #include "motor control/ControlledMotorDriver.h"
 #include "angle control/IRSensorPrediction.h"
+#include "states/FSM.h"
 
   // constants
   const float BASE_RPM = 30;
