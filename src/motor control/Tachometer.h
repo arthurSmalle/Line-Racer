@@ -14,6 +14,17 @@ class Tachometer{
     void enable();
     void disable();
 
+    Tachometer(const uint8_t pinA,const uint8_t id){
+      if (id < MAX_INSTANCE_AMOUNT && id >= 0){
+	this->id = id;
+      }
+      else {
+	this->id = MAX_INSTANCE_AMOUNT; // if invalid id set to max id
+      }
+      pinsA[this->id] = pinA;
+      pinMode(pinA, INPUT);
+    }
+
     Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id){
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
