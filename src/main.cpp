@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include "PID/PIDController.h"
-#include "motor control/L298NController.h"
-#include "motor control/Tachometer.h"
 #include "motor control/ControlledMotorDriver.h"
 #include "angle control/IRSensorPrediction.h"
 
@@ -18,10 +16,6 @@
   float output_signal = 0;
 
   IRSensorPrediction ir_sens = IRSensorPrediction();
-  L298NController motor_l = L298NController(MOTOR_L1, MOTOR_L2, 100);
-  L298NController motor_r = L298NController(MOTOR_R1,MOTOR_R2, 50);
-//  Tachometer tacho_l = Tachometer(TACHO_PIN0A, TACHO_PIN0B, 0);
-//  Tachometer tacho_r = Tachometer(TACHO_PIN1A, TACHO_PIN1B, 1);
   ControlledMotorDriver motor_cl_l = ControlledMotorDriver(30,MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
   ControlledMotorDriver motor_cl_r = ControlledMotorDriver(30,MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
 
