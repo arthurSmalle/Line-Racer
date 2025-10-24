@@ -29,13 +29,15 @@ class ControlledMotorDriver{
     void enable();
     void stop();
 
-    ControlledMotorDriver(const float set_point, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const unsigned long interval = 100, const float Kp = .7,const float Ki = .3, const float Kd = .1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id, interval), pid(Kp,Ki,Kd, this->error_signal){
+    ControlledMotorDriver(const float set_point, const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const float Kp = .7,const float Ki = .3, const float Kd = .1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id), pid(Kp,Ki,Kd, this->error_signal){
       this->set_point = set_point;
+      this->update_time = update_time;
       tachometer.enable();
     }
 
-    ControlledMotorDriver(const float set_point, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t pinB,const uint8_t id, const unsigned long interval = 100, const float Kp = .7,const float Ki = .3, const float Kd = .1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA, pinB, id, interval), pid(Kp,Ki,Kd, this->error_signal){
+    ControlledMotorDriver(const float set_point, const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t pinB,const uint8_t id, const float Kp = .7,const float Ki = .3, const float Kd = .1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA, pinB, id), pid(Kp,Ki,Kd, this->error_signal){
       this->set_point = set_point;
+      this->update_time = update_time;
       tachometer.enable();
     }
 
@@ -43,6 +45,9 @@ class ControlledMotorDriver{
     float error_signal= 0;
     float rpm; 
     float set_point;
+
+    unsigned long update_time = 150;
+    unsigned long last_calculation = 0;
 
     L298NController physical_driver;
     Tachometer tachometer;

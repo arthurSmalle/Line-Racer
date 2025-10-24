@@ -18,9 +18,7 @@ class Tachometer{
 
     void set_interval(const unsigned long interval){this->interval =interval;}
 
-    Tachometer(const uint8_t pinA,const uint8_t id, unsigned long interval = 100){
-
-      this->interval = interval;
+    Tachometer(const uint8_t pinA,const uint8_t id){
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
       }
@@ -31,7 +29,7 @@ class Tachometer{
       pinMode(pinA, INPUT);
     }
 
-    Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id, unsigned long interval = 100){
+    Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id){
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
       }
@@ -49,7 +47,7 @@ class Tachometer{
 
   private:
     float rpm = 0;
-    unsigned long interval; // interval for calculating rpm
+    unsigned long interval = 150; // interval for calculating rpm
     unsigned long last_calculation = 0; // time since last rpm calculation
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
