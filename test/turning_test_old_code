@@ -1,0 +1,36 @@
+void test_turn_speed(const float start_rpm, const float interval_rpm, bool dual_drive, const float test_interval = 1500)
+{
+  if (dual_drive){
+    motor_cl_l.set_clock_wise(true);
+  }
+  // iterate over the tests
+  for (uint8_t i = 0; i < MEASURE_SCOPE; i++){
+    Serial.println("Setting rpm: " + String(start_rpm + i*interval_rpm));
+    motor_cl_l.set_set_point(start_rpm + i*interval_rpm);
+    motor_cl_r.set_set_point(start_rpm + i*interval_rpm);
+
+    unsigned long start_time = millis();
+    digitalWrite(13, LOW);
+
+    while(digitalRead(IR_PIN0) == LOW){
+      Serial.println("TURING");
+      motor_cl_l.update();
+      if (dual_drive){
+	motor_cl_r.update();
+      }
+      delay(100);
+    }
+    measured_vals[i] = millis() - start_time;
+    Serial.println("done turining: " + String(measured_vals[i]));
+    digitalWrite(13, HIGH);
+    delay(test_interval);
+  }
+  digitalWrite(13, HIGH);
+  while(1){
+    Serial.println("====================");
+    for (uint8_t i = 0; i < MEASURE_SCOPE; i++){
+      Serial.println("Meting " + String(i) + " = " + String(measured_vals[i]));
+    }
+    delay(500);
+  }
+}
