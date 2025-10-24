@@ -8,13 +8,18 @@
 
 class Tachometer{
   public:
-    void calculate_rpm();
-    uint8_t get_id(){return this->id;};
-    float get_rpm(){return this->rpm;}
+    void calculate_rpm(const bool ignore_interval = false);
     void enable();
     void disable();
+    
+    uint8_t get_id(){return this->id;}
+    float get_rpm(){return this->rpm;}
+    unsigned long get_interval(){return  this->interval;}
+
+    void set_interval(const unsigned long interval){this->interval =interval;}
 
     Tachometer(const uint8_t pinA,const uint8_t id, unsigned long interval = 100){
+
       this->interval = interval;
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
@@ -26,7 +31,7 @@ class Tachometer{
       pinMode(pinA, INPUT);
     }
 
-    Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id){
+    Tachometer(const uint8_t pinA,const uint8_t pinB,const uint8_t id, unsigned long interval = 100){
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
       }
@@ -43,8 +48,9 @@ class Tachometer{
     }
 
   private:
-    volatile float rpm = 0;
-    unsigned long interval;
+    float rpm = 0;
+    unsigned long interval; // interval for calculating rpm
+    unsigned long last_calculation = 0; // time since last rpm calculation
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
     static uint8_t pinsA[MAX_INSTANCE_AMOUNT];
@@ -58,7 +64,6 @@ class Tachometer{
     static volatile unsigned long last_time[MAX_INSTANCE_AMOUNT]; // list time in ms since the last pulse 
     static volatile unsigned long duration[MAX_INSTANCE_AMOUNT]; // time between two pulses
     static volatile uint8_t sample_counter[MAX_INSTANCE_AMOUNT]; // keeps count for when to sample
-
 
     static void wheel_speed(const uint8_t id);
     static void wheel_speed_id0(){wheel_speed(0);};

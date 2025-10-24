@@ -15,6 +15,6 @@ void ControlledMotorDriver::update(){
   physical_driver.set_throttle(pid_output);
 }
 
-void ControlledMotorDriver::enable(const float measure_interval){
+void ControlledMotorDriver::enable(){
 //  ITimer.attach
 }

@@ -123,6 +123,8 @@ void test_turn_speed(const float start_rpm, const float interval_rpm, bool dual_
 }
 
 void loop(){
-  drive_sensor_feedback_cl();
+  motor_cl_l.update();
+//  Serial.println("RPM: " + String(motor_cl_l.get_rpm()));
+//  drive_sensor_feedback_cl();
 //  test_turn_speed(10,10,false);
 }
