@@ -14,7 +14,8 @@ class Tachometer{
     void enable();
     void disable();
 
-    Tachometer(const uint8_t pinA,const uint8_t id){
+    Tachometer(const uint8_t pinA,const uint8_t id, unsigned long interval = 100){
+      this->interval = interval;
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
 	this->id = id;
       }
@@ -42,7 +43,8 @@ class Tachometer{
     }
 
   private:
-    float rpm = 0;
+    volatile float rpm = 0;
+    unsigned long interval;
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
     static uint8_t pinsA[MAX_INSTANCE_AMOUNT];
