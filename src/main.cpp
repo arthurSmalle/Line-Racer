@@ -21,8 +21,8 @@
   
   // global objects
   IRSensorPrediction ir_sens = IRSensorPrediction();
-  ControlledMotorDriver motor_cl_l = ControlledMotorDriver(30,MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
-  ControlledMotorDriver motor_cl_r = ControlledMotorDriver(30,MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
+  ControlledMotorDriver motor_cl_l = ControlledMotorDriver(30, 50, MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
+  ControlledMotorDriver motor_cl_r = ControlledMotorDriver(30, 50, MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
 
   PIDController angle_pid = PIDController(0.8, 0.0, 0.5, error_signal);
 
