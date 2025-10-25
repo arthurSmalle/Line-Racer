@@ -13,7 +13,7 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-  RSDriveForward forward = RSDriveForward();
+  RSDriveForward * forward = new RSDriveForward();
   FSM fsm = FSM(forward);
   // global vars
   float error_signal = 0;
