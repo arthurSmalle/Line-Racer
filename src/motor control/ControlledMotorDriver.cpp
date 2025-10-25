@@ -21,5 +21,4 @@ void ControlledMotorDriver::update(){
 }
 
 void ControlledMotorDriver::enable(){
-//  ITimer.attach
 }
