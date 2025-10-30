@@ -1,4 +1,4 @@
-#ifndef RS_TEMPLATE_H
+  #ifndef RS_TEMPLATE_H
 #define RS_TEMPLATE_H
 #include "state machine/RobotState.h"
 #include <Arduino.h>
