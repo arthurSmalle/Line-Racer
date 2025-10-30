@@ -9,22 +9,29 @@ class DerivativeController : public Controller{
   public:
     float Kd;
 
-    DerivativeController(float Kd, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal) {
+    DerivativeController(float Kd, const float resolution, const float time_component , float * const error_signal, float * const output_signal): Controller(error_signal, output_signal) {
       this->Kd = Kd;
+      this->time_component = time_component;
     };
 
 // later obfuscate this function
     void calculate_output() override{
-      unsigned long new_measure_time = millis();
-      float rico = (*error_signal - last_measurement) / (new_measure_time - last_measure_time);
+      float rico = (*error_signal - last_measurement) / this->time_component;
+      Serial.println("DERIVATIVECONTROLLER");
+      Serial.println("error_signal: " + String(*error_signal));
+      Serial.println("last_measurement: " + String(last_measurement));
       last_measurement = *error_signal;
-      last_measure_time = new_measure_time;
 
+    if ((*error_signal > this->set_point - this->resolution) && (*error_signal < this->set_point + this->resolution)){
+      *this->output_signal = 0;
+    } else {
       *this->output_signal = Kd * rico;
+    }
     };
 
   private:
-    unsigned long last_measure_time = 0;
     float last_measurement = 0;
+    float time_component;
+    float resolution;
 };
 #endif

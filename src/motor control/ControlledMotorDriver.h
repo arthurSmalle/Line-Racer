@@ -31,7 +31,8 @@ class ControlledMotorDriver{
     void enable();
     void stop();
 
-    ControlledMotorDriver(const float set_point,  const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const float Kp = .7,const float Ki = .3, const float Kd = .1, const float resolution = 0.1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id), pid(Kp,Ki,Kd, resolution, set_point, this->error_signal, this->output_signal){
+    // note: update_time is used as timecomponent for D controller
+    ControlledMotorDriver(const float set_point,  const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const float Kp = .7,const float Ki = .3, const float Kd = .1, const float resolution = 0.1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id), pid(Kp,Ki,Kd, resolution, update_time,set_point, this->error_signal, this->output_signal){
       this->set_point = set_point;
       this->update_time = update_time;
       tachometer.enable();

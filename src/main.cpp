@@ -8,6 +8,7 @@
 // states that will be used
 #include "robot states/RSDriveForward.h"
 #include "robot states/TSTachometer.h"
+#include "robot states/TSPID.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -16,9 +17,11 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-  RSDriveForward * forward = new RSDriveForward();
-  TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
-  FSM fsm = FSM(tacho_test);
+  // RSDriveForward * forward = new RSDriveForward();
+  // TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
+  TSPID * pid_test = new TSPID();
+
+  FSM fsm = FSM(pid_test);
   // global vars
   float error_signal = 0;
   float angle = 0;
