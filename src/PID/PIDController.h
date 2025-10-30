@@ -8,11 +8,11 @@
 
 class PIDController: public Controller{
   public:
-    PIDController(const float Kp, const float Ki, const float Kd, const float &error_signal): Controller(error_signal), PController(Kp, error_signal), IController(Ki, error_signal), DController(Kd, error_signal){
+    PIDController(const float Kp, const float Ki, const float Kd, const float resolution, const float set_point, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal), PController(Kp, error_signal, output_signal), IController(Ki, resolution, set_point, error_signal, output_signal), DController(Kd, error_signal, output_signal){
       this->error_signal = error_signal;
     };
     
-    void calculate_output(){
+    void calculate_output() override{
 	this->PController.calculate_output(); 
 	this->IController.calculate_output();
 	this->DController.calculate_output();
@@ -23,21 +23,26 @@ class PIDController: public Controller{
 	  Serial.println("D: " + String(this->DController.get_output_signal()));
 	#endif
 
-	this->output_signal = 
+	*this->output_signal = 
 	  this->PController.get_output_signal() +
 	  this->IController.get_output_signal() +
 	  this->DController.get_output_signal();
     }
     
-    void set_error_signal(const float &error_signal) override{
+    void set_error_signal(float * const error_signal) override{
       this->error_signal = error_signal;
       this->PController.set_error_signal(error_signal);
       this->IController.set_error_signal(error_signal);
       this->DController.set_error_signal(error_signal);
     }
 
-    float update(const float &error_signal){
-      set_error_signal(error_signal);
+    void set_set_point(const float set_point) override{
+      IController.set_set_point(set_point);
+      this->set_point = set_point;
+    }
+
+    float update(const float error_signal){
+      *this->error_signal = error_signal;
       calculate_output();
       return get_output_signal();
     }
