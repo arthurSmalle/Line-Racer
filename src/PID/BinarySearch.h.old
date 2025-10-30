@@ -10,8 +10,7 @@ class BinarySearch : public Controller{
       this->min = min;
       this->max = max;
     }
-  bool calculate_output(); // calculate_output, returns true when done calculating
-  void set_error(float error_signal){this->error_signal = error_signal;}
+  bool calculate(); // calculate_output, returns true when done calculating
 
   private:
     float set_point;

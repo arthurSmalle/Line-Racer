@@ -9,18 +9,18 @@ class DerivativeController : public Controller{
   public:
     float Kd;
 
-    DerivativeController(float Kd, const float &error_signal): Controller(error_signal) {
+    DerivativeController(float Kd, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal) {
       this->Kd = Kd;
     };
 
 // later obfuscate this function
-    void calculate_output(){
+    void calculate_output() override{
       unsigned long new_measure_time = millis();
-      float rico = (error_signal - last_measurement) / (new_measure_time - last_measure_time);
-      last_measurement = error_signal;
+      float rico = (*error_signal - last_measurement) / (new_measure_time - last_measure_time);
+      last_measurement = *error_signal;
       last_measure_time = new_measure_time;
 
-      this->output_signal = Kd * rico;
+      *this->output_signal = Kd * rico;
     };
 
   private:
