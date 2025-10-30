@@ -17,7 +17,7 @@
   
   // global objects
   RSDriveForward * forward = new RSDriveForward();
-  TSTachometer * tacho_test = new TSTachometer(40);
+  TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
   FSM fsm = FSM(tacho_test);
   // global vars
   float error_signal = 0;
@@ -30,6 +30,7 @@
   
   void setup(){
     Serial.begin(115200);
+    while(!Serial);
   }
 
 void loop(){
