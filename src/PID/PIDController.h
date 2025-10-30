@@ -8,7 +8,7 @@
 
 class PIDController: public Controller{
   public:
-    PIDController(const float Kp, const float Ki, const float Kd, const float resolution, const float set_point, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal), PController(Kp, error_signal, output_signal), IController(Ki, resolution, set_point, error_signal, output_signal), DController(Kd, error_signal, output_signal){
+    PIDController(const float Kp, const float Ki, const float Kd, const float resolution, const float time_component, const float set_point, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal), PController(Kp, error_signal, &p_output), IController(Ki, resolution, set_point, error_signal, &i_output), DController(Kd,resolution, time_component, error_signal, &d_output){
       this->error_signal = error_signal;
     };
     
@@ -23,18 +23,18 @@ class PIDController: public Controller{
 	  Serial.println("D: " + String(this->DController.get_output_signal()));
 	#endif
 
-	*this->output_signal = 
-	  this->PController.get_output_signal() +
-	  this->IController.get_output_signal() +
-	  this->DController.get_output_signal();
+	*this->output_signal = p_output + i_output + d_output;
+	  // this->PController.get_output_signal() +
+	  // this->IController.get_output_signal() +
+	  // this->DController.get_output_signal();
     }
     
-    void set_error_signal(float * const error_signal) override{
-      this->error_signal = error_signal;
-      this->PController.set_error_signal(error_signal);
-      this->IController.set_error_signal(error_signal);
-      this->DController.set_error_signal(error_signal);
-    }
+    // void set_error_signal(float * const error_signal) override{
+    //   this->error_signal = error_signal;
+    //   // this->PController.set_error_signal(error_signal);
+    //   // this->IController.set_error_signal(error_signal);
+    //   // this->DController.set_error_signal(error_signal);
+    // }
 
     void set_set_point(const float set_point) override{
       IController.set_set_point(set_point);
@@ -49,8 +49,11 @@ class PIDController: public Controller{
 
   private: 
     ProportionalController PController;
+    float p_output = 0;
     IntegralController IController;
+    float i_output = 0;
     DerivativeController DController;
+    float d_output = 0;
 
     // maybe implement a set point and  compute function? (removing this from the main function)
 };
