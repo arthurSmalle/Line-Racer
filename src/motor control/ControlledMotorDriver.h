@@ -13,6 +13,8 @@ class ControlledMotorDriver{
 
     void set_set_point(const float set_point){this->set_point = set_point;} // set point in rpm
     void set_clock_wise(bool clk){this->physical_driver.clockwise = clk;};
+    void set_update_time(const unsigned long update_time){this->update_time = update_time;} // modify the update time
+    void set_tachometer_interval_time(const unsigned long interval){this->tachometer.set_interval(interval);}
 									 
     //******************//
     // getter functions //

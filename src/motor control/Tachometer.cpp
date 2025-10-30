@@ -1,8 +1,8 @@
 #include "Tachometer.h"
 #include <Arduino.h>
-#define MILLIS_IN_MINUTE 60000
+#define MICROS_IN_MINUTE 60000000
 #define GEAR_RATIO 120 
-#define READ_RESOLUTION 8
+#define READ_RESOLUTION 16
 
 // initialse the static var
 uint8_t Tachometer::pinsA[MAX_INSTANCE_AMOUNT] = {0};
@@ -16,13 +16,13 @@ volatile uint8_t Tachometer::sample_counter[MAX_INSTANCE_AMOUNT] = {0}; // keeps
 
 // THERE SHOULD BE A CONSIDIRABLE DELAY BETWEEN CALLING THIS FUNCTION PERIODICLY
 void Tachometer::calculate_rpm(const bool ignore_interval){
-  unsigned long currrent_time = millis();
+  unsigned long currrent_time = micros();
 
   // chech if enough time passed to do calculation or if the interval should be ignored
   if (((currrent_time - this->last_calculation) > this->interval) || ignore_interval){
   float rotations = float(duration[id]) / (GEAR_RATIO * READ_RESOLUTION);
   unsigned long passed_time = currrent_time - last_calculation;
-  rpm = (rotations / float(passed_time)) * MILLIS_IN_MINUTE;
+  rpm = (rotations / float(passed_time)) * MICROS_IN_MINUTE;
 //#ifdef DEBUG
   Serial.println("=== TACHODEBUG ===");
   Serial.println("duration:" + String(duration[id]));
@@ -43,9 +43,9 @@ void Tachometer::enable(){
 
   // assign the interrupt pins to the correct glue function
   if (this->id == 0){
-    attachInterrupt(digitalPinToInterrupt(Tachometer::pinsA[this->id]), wheel_speed_id0, RISING);
+    attachInterrupt(digitalPinToInterrupt(Tachometer::pinsA[this->id]), wheel_speed_id0, CHANGE);
   } else if (this->id == 1){
-    attachInterrupt(digitalPinToInterrupt(Tachometer::pinsA[this->id]), wheel_speed_id1, RISING);
+    attachInterrupt(digitalPinToInterrupt(Tachometer::pinsA[this->id]), wheel_speed_id1, CHANGE);
   }
 }
 
@@ -58,7 +58,7 @@ void Tachometer::wheel_speed(const uint8_t id){
   // sample_counter[id]++;
   // if (sample_counter[id] > int(TACHO_SAMPLE_SIZE)){
   //  // check the speed of the rotation
-  //  unsigned long current_time = millis();
+  //  unsigned long current_time = micros();
   //  duration[id] = current_time - last_time[id];
   //  last_time[id] = current_time;
   //  sample_counter[id] = 0;

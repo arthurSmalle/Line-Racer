@@ -2,7 +2,7 @@
 #include <Arduino.h>
 
 void ControlledMotorDriver::update(){
-  unsigned long current_time = millis();
+  unsigned long current_time = micros();
   if ((current_time - this->last_calculation) > this-> update_time){
     tachometer.calculate_rpm();
     this->rpm = tachometer.get_rpm();
@@ -21,5 +21,4 @@ void ControlledMotorDriver::update(){
 }
 
 void ControlledMotorDriver::enable(){
-//  ITimer.attach
 }
