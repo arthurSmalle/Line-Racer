@@ -48,7 +48,7 @@ class ControlledMotorDriver{
     float rpm; 
     float set_point;
 
-    unsigned long update_time = 50;
+    unsigned long update_time = 150;
     unsigned long last_calculation = 0;
 
     L298NController physical_driver;

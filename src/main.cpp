@@ -1,10 +1,13 @@
 #include <Arduino.h>
 #include "PID/PIDController.h"
+#include "motor control/L298NController.h"
 #include "motor control/ControlledMotorDriver.h"
 #include "angle control/IRSensorPrediction.h"
 
 #include "state machine/FSM.h"
+// states that will be used
 #include "robot states/RSDriveForward.h"
+#include "robot states/TSTachometer.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -14,7 +17,8 @@
   
   // global objects
   RSDriveForward * forward = new RSDriveForward();
-  FSM fsm = FSM(forward);
+  TSTachometer * tacho_test = new TSTachometer(40);
+  FSM fsm = FSM(tacho_test);
   // global vars
   float error_signal = 0;
   float angle = 0;
