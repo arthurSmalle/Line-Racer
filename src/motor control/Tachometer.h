@@ -47,7 +47,7 @@ class Tachometer{
 
   private:
     float rpm = 0;
-    unsigned long interval = 150; // interval for calculating rpm
+    unsigned long interval = 1000; // interval for calculating rpm
     unsigned long last_calculation = 0; // time since last rpm calculation
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
