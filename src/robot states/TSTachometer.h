@@ -27,8 +27,8 @@ class TSTachometer : public State{
       tacho.calculate_rpm();
       this->rpm = tacho.get_rpm();
       pid.calculate_output();
-      float output_signal = pid.get_output_signal();
-      tacho.set_interval(tacho.get_interval() + output_signal);
+      tacho.set_interval(tacho.get_interval() + tacho_output);
+      tacho_error = this->set_point - rpm;
       Serial.println("FSMRPM: " + String(rpm));
       Serial.println("interval:" + String(tacho.get_interval()));
       delay(1);
@@ -44,7 +44,7 @@ class TSTachometer : public State{
   float tacho_output = 0;
   unsigned long tacho_interval;
   int test_interval;
-  PIDController pid = PIDController(.8, .2, .1, 0.1, 1, set_point, &tacho_error, &tacho_output);
+  PIDController pid = PIDController(.7, .2, .1, 0.01, .1, set_point, &tacho_error, &tacho_output);
   float rpm = 0;
 
   static L298NController pysical_motor;
