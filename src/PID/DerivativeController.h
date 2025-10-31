@@ -17,9 +17,6 @@ class DerivativeController : public Controller{
 // later obfuscate this function
     void calculate_output() override{
       float rico = (*error_signal - last_measurement) / this->time_component;
-      Serial.println("DERIVATIVECONTROLLER");
-      Serial.println("error_signal: " + String(*error_signal));
-      Serial.println("last_measurement: " + String(last_measurement));
       last_measurement = *error_signal;
 
     if ((*error_signal > this->set_point - this->resolution) && (*error_signal < this->set_point + this->resolution)){

@@ -18,10 +18,10 @@
   
   // global objects
   // RSDriveForward * forward = new RSDriveForward();
-  // TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
-  TSPID * pid_test = new TSPID();
+  TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
+  // TSPID * pid_test = new TSPID();
 
-  FSM fsm = FSM(pid_test);
+  FSM fsm = FSM(tacho_test);
   // global vars
   float error_signal = 0;
   float angle = 0;
