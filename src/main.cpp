@@ -1,10 +1,14 @@
 #include <Arduino.h>
 #include "PID/PIDController.h"
+#include "motor control/L298NController.h"
 #include "motor control/ControlledMotorDriver.h"
 #include "angle control/IRSensorPrediction.h"
 
 #include "state machine/FSM.h"
+// states that will be used
 #include "robot states/RSDriveForward.h"
+#include "robot states/TSTachometer.h"
+#include "robot states/TSPID.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -13,8 +17,11 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-  RSDriveForward * forward = new RSDriveForward();
-  FSM fsm = FSM(forward);
+  // RSDriveForward * forward = new RSDriveForward();
+  TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
+  // TSPID * pid_test = new TSPID();
+
+  FSM fsm = FSM(tacho_test);
   // global vars
   float error_signal = 0;
   float angle = 0;
@@ -26,6 +33,7 @@
   
   void setup(){
     Serial.begin(115200);
+    while(!Serial);
   }
 
 void loop(){
