@@ -16,35 +16,26 @@ class PIDController: public Controller{
 	this->PController.calculate_output(); 
 	this->IController.calculate_output();
 	this->DController.calculate_output();
+	
+	*this->output_signal = p_output + i_output + d_output;
 
 	#ifdef DEBUG
 	  Serial.println("P: " + String(this->PController.get_output_signal()));
 	  Serial.println("I: " + String(this->IController.get_output_signal()));
 	  Serial.println("D: " + String(this->DController.get_output_signal()));
 	#endif
-
-	*this->output_signal = p_output + i_output + d_output;
-	  // this->PController.get_output_signal() +
-	  // this->IController.get_output_signal() +
-	  // this->DController.get_output_signal();
     }
     
-    // void set_error_signal(float * const error_signal) override{
-    //   this->error_signal = error_signal;
-    //   // this->PController.set_error_signal(error_signal);
-    //   // this->IController.set_error_signal(error_signal);
-    //   // this->DController.set_error_signal(error_signal);
-    // }
-
     void set_set_point(const float set_point) override{
       IController.set_set_point(set_point);
       this->set_point = set_point;
     }
 
-    float update(const float error_signal){
-      *this->error_signal = error_signal;
+    void update(){
+      float temp_error = *this->error_signal;
+      *this->error_signal = this->set_point - *this->error_signal;
       calculate_output();
-      return get_output_signal();
+      *this->error_signal = temp_error;
     }
 
   private: 

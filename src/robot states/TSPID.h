@@ -9,22 +9,24 @@ class TSPID :  public State{
     TSPID(){}
 
   protected:
-    void virtual enter(){}
+    void enter()override{}
 
-    void virtual update(){
+    void update()override{
       while ((output_signal > 0 + resolution) || (output_signal < 0 - resolution)){
         pid.calculate_output();
         error_signal -=  output_signal /100;
+#ifdef DEBUG
         Serial.println("output pid: " +String(pid.get_output_signal()));
         Serial.println("output: " +String(output_signal));
         Serial.println("error_signal:" + String(error_signal));
         delay(100);
+#endif
         counter++;
 	}
       Serial.println("PID REACHED STEADY STATE AFTER " + String(counter) + " LOOPS");
       delay(3000);
     }
-    State virtual * go_next_state(){}
+    State virtual * go_next_state()override{}
 
   private:
 
