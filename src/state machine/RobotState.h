@@ -8,6 +8,11 @@ class RobotState: public State{
   public:
     RobotState():State(){};
   protected:
+    // override functions
+    void virtual update() override{
+      ir_sens.update_ir_readings();
+      angle = ir_sens.predict_angle();
+    }
 
     // static objects
     static IRSensorPrediction ir_sens;

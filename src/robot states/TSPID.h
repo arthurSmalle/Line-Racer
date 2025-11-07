@@ -1,10 +1,10 @@
 #ifndef TSPID_H
 #define TSPID_H
 #include <Arduino.h>
-#include "../state machine/State.h"
+#include "../state machine/RobotState.h"
 #include "PID/PIDController.h"
 
-class TSPID :  public State{
+class TSPID :  public RobotState{
   public:
     TSPID(){}
 
@@ -12,6 +12,7 @@ class TSPID :  public State{
     void enter()override{}
 
     void update()override{
+      RobotState::update();
       while ((output_signal > 0 + resolution) || (output_signal < 0 - resolution)){ // check if not around the steady state
         pid.calculate_output();
         error_signal -=  output_signal /100; // simulate error_signal going down

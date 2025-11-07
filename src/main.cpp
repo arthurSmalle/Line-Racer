@@ -9,6 +9,8 @@
 #include "robot states/RSDriveForward.h"
 #include "robot states/TSTachometer.h"
 #include "robot states/TSPID.h"
+#include "robot states/RSTemplate.h"
+#include "robot states/TSSpeakers.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -19,9 +21,11 @@
   // global objects
   // RSDriveForward * forward = new RSDriveForward();
   TSTachometer * tacho_test = new TSTachometer(51,100, 3000);
+  RSTemplate * rstemplate = new RSTemplate();
+  TSSpeakers * speaker_test = new TSSpeakers();
   // TSPID * pid_test = new TSPID();
 
-  FSM fsm = FSM(tacho_test);
+  FSM fsm = FSM(speaker_test);
   // global vars
   float error_signal = 0;
   float angle = 0;

@@ -1,27 +1,46 @@
-  #ifndef RS_TEMPLATE_H
+#ifndef RS_TEMPLATE_H
 #define RS_TEMPLATE_H
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 
-class RSDriveForward : protected RobotState{
-  private:
+class RSTemplate : public RobotState{
+  public:
+    // constructor (leave empty)
+    // change name to name of class
+    RSTemplate(){}
+
+  protected:
     // Add variables here
-    float example_var = 30;
 
     // Add functions here
-    void example_func(){
-      example_var++;
-    }
+    // functions can only be called from enter, update and go_next_state
+    void example_func(){}
 
     // put code between {} to implement features
-    void enter() override{}
-    void update() override{}
-    void exit() override{}
+
+    // do something on start of the state (only does this once)
+    void enter() override{
+      // do check on angle and set rpm for motor
+      if (angle < 0){
+      motor_cl_r.set_set_point(30);
+      motor_cl_l.set_set_point(30);
+      } else {
+      motor_cl_r.set_set_point(20);
+      motor_cl_l.set_set_point(20);
+      }
+    }
+
+    // keep looping
+    void update() override{
+      RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
+      motor_cl_l.update();
+      motor_cl_r.update();
+    }
     // add logic for going to next state here
+    // this is called when in in main you do:
+    // ready_go_next = true;
+    // this ends the update loop!
     State * go_next_state() override{}
-   
-    // constructor (leave empty)
-    RSDriveForward(){}
 };
 
 #endif
