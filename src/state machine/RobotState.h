@@ -4,29 +4,42 @@
 #include "../motor control/ControlledMotorDriver.h"
 #include "../angle control/IRSensorPrediction.h"
 #include "../PID/PIDController.h"
-#include <set>
 
 class RobotState: public State{
   public:
     RobotState():State(){};
   protected:
+    // get and set functions
+    float get_angle(){return angle;};
+    float get_angle_pid_output(){return angle_output_signal;}
+    float get_angle_pid_set_point(){return angle_pid.get_set_point();}
+
+    float set_angle_error(const float error){angle_error_signal = error;}
+    float set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
+
+
     // override functions
     void virtual update() override{
+      // make reading for the angle
       ir_sens.update_ir_readings();
       angle = ir_sens.predict_angle();
-    }
-    // static variables
-    static float angle; // keep track of the angle deviation of the robot
-    static float angle_set_point;
-    static float angle_error_signal;
-    static float angle_output_signal;
 
+      // calculate output with the pid
+      angle_error_signal = angle;
+      angle_pid.update();
+    }
 
     // static objects
     static IRSensorPrediction ir_sens;
     static PIDController angle_pid;
     static ControlledMotorDriver motor_cl_l;
     static ControlledMotorDriver motor_cl_r;
+
+  private:
+    // static variables
+    static float angle; // keep track of the angle deviation of the robot
+    static float angle_error_signal; // error signal (input for pid) (only angle estimate needed for input, set point will be subtracted automatically)
+    static float angle_output_signal; // output of the angle pid
 };
 
 // initialize the static fields of this class
@@ -45,7 +58,6 @@ PIDController RobotState::angle_pid =  PIDController(Kp, Ki, Kd, resolution, tim
 
 // static variables
 float RobotState::angle = 0;
-float RobotState::angle_set_point = 0;
 float RobotState::angle_error_signal = 0;
 float RobotState::angle_output_signal = 0;
 #endif

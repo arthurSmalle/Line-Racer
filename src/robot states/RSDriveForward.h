@@ -18,15 +18,13 @@ class RSDriveForward : public RobotState{
     }
 
     void update() override{
+      RobotState::update();
       // update the motors
       motor_cl_l.update();
       motor_cl_r.update();
 
       // check if there is a deviation in the angle
-      ir_sens.update_ir_readings();
-      angle = ir_sens.predict_angle();
-      
-      if (angle != 0){
+      if (get_angle() != get_angle_pid_set_point()){
 	this->next_ready = true;
       }
     }

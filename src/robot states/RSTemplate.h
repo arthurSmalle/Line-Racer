@@ -21,7 +21,7 @@ class RSTemplate : public RobotState{
     // do something on start of the state (only does this once)
     void enter() override{
       // do check on angle and set rpm for motor
-      if (angle < 0){
+      if (get_angle() < 0){
       motor_cl_r.set_set_point(30);
       motor_cl_l.set_set_point(30);
       } else {
