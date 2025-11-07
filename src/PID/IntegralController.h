@@ -24,6 +24,10 @@ class IntegralController : public Controller{
       this->set_point = set_point;
     }
 
+    void set_Ki(const float Ki){
+      this->Ki = Ki;
+    }
+
 // later obfuscate these functions
     void calculate_output(){
       if (this->scope == NARROW){

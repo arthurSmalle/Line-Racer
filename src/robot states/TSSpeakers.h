@@ -1,7 +1,6 @@
 // buzzer tone lib: https://github.com/hibit-dev/buzzer/tree/master
 #ifndef TS_SPEAKERS_H
 #define TS_SPEAKERS_H
-#include "api/Compat.h"
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 #include "./pitches.h"

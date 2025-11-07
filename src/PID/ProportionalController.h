@@ -10,6 +10,10 @@ class ProportionalController : public Controller{
       this->Kp = Kp;
     };
 
+    void set_Kp(const float Kp){
+      this->Kp = Kp;
+    }
+
 // later obfuscate this function
     void calculate_output(){
       *this->output_signal = Kp * *error_signal;
