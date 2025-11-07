@@ -83,25 +83,24 @@ int durations[] = {
     // do something on start of the state (only does this once)
     void enter() override{
       pinMode(buzzer_pin, OUTPUT);
-      player.set_loop(true);
-      player.play();
-      player.set_pause_modifier(.75);
+      music_player.set_loop(true);
+      music_player.set_song(melody, durations, 65, .75);
+      music_player.play();
     }
 
    int music_pos = 0;
     // keep looping
     void update() override{
-      player.update();
-      if (music_pos != player.get_current_pos()){
-	music_pos = player.get_current_pos();
-	Serial.println(music_pos);
-	Serial.println(player.get_current_note());
-      }
+      music_player.update();
+	//      if (music_pos != music_player.get_current_pos()){
+	// music_pos = music_player.get_current_pos();
+	// Serial.println(music_pos);
+	// Serial.println(music_player.get_current_note());
+	//      }
     }
     State * go_next_state() override{}
 
     private:
-    MusicPlayer player = MusicPlayer(9, melody, durations, 65);
 
       int melody[65] = {
   NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST,

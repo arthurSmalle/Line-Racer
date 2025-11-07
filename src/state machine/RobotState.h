@@ -3,6 +3,7 @@
 #include "State.h"
 #include "../motor control/ControlledMotorDriver.h"
 #include "../angle control/IRSensorPrediction.h"
+#include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
 
 class RobotState: public State{
@@ -34,6 +35,7 @@ class RobotState: public State{
     static PIDController angle_pid;
     static ControlledMotorDriver motor_cl_l;
     static ControlledMotorDriver motor_cl_r;
+    static MusicPlayer music_player;
 
   private:
     // static variables
@@ -46,6 +48,8 @@ class RobotState: public State{
 IRSensorPrediction RobotState::ir_sens = IRSensorPrediction();
 ControlledMotorDriver RobotState::motor_cl_l = ControlledMotorDriver(10, 2400, MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
 ControlledMotorDriver RobotState::motor_cl_r = ControlledMotorDriver(0, 2400, MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
+MusicPlayer RobotState::music_player = MusicPlayer(MUSIC_PIN);
+
 // variables for angle pid
 float Kp = 0.8;
 float Ki = 0.4;
