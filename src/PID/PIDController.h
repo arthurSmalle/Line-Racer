@@ -45,7 +45,5 @@ class PIDController: public Controller{
     float i_output = 0;
     DerivativeController DController;
     float d_output = 0;
-
-    // maybe implement a set point and  compute function? (removing this from the main function)
 };
 #endif
