@@ -3,7 +3,7 @@
 #define TS_SPEAKERS_H
 #include "state machine/RobotState.h"
 #include <Arduino.h>
-#include "../music player/MusicPlayer.h"
+#include "./pitches.h"
 
 class TSSpeakers : public RobotState{
   public:
@@ -83,66 +83,18 @@ int durations[] = {
     // do something on start of the state (only does this once)
     void enter() override{
       pinMode(buzzer_pin, OUTPUT);
-      player.set_loop(true);
-      player.play();
-      player.set_pause_modifier(.75);
     }
 
-   int music_pos = 0;
     // keep looping
     void update() override{
-      player.update();
-      if (music_pos != player.get_current_pos()){
-	music_pos = player.get_current_pos();
-	Serial.println(music_pos);
-	Serial.println(player.get_current_note());
-      }
+      Serial.println("beginning music...");
+      tokyo_drift();
     }
+    // add logic for going to next state here
+    // this is called when in in main you do:
+    // ready_go_next = true;
+    // this ends the update loop!
     State * go_next_state() override{}
-
-    private:
-    MusicPlayer player = MusicPlayer(9, melody, durations, 65);
-
-      int melody[65] = {
-  NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_F5, REST, NOTE_F5, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  REST
-};
-int durations[65] = {
-  4, 4, 4, 4, 4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  1
-};
 };
 
 #endif
