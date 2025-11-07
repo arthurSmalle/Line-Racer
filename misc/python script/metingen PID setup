@@ -1,0 +1,5 @@
+tacho m1:
+PIDController pid = PIDController(.7, .2, .1, 0.01, .1, set_point, &tacho_error, &tacho_output);
+tacho m2:
+PIDController pid = PIDController(.5, .3, .4, 0.01, .1, set_point, &tacho_error, &tacho_output);
+

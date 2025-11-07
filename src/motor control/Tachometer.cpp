@@ -25,10 +25,10 @@ void Tachometer::calculate_rpm(const bool ignore_interval){
   rpm = (rotations / float(passed_time)) * MICROS_IN_MINUTE;
 //#ifdef DEBUG
   Serial.println("=== TACHODEBUG ===");
-  Serial.println("duration:" + String(duration[id]));
-  Serial.println("rotations:" + String(rotations));
-  Serial.println("passed_time:" + String(passed_time));
-  Serial.println("rpm:" + String(this->rpm));
+  Serial.println("duration: " + String(duration[id]));
+  Serial.println("rotations: " + String(rotations));
+  Serial.println("passed_time: " + String(passed_time));
+  Serial.println("rpm: " + String(this->rpm));
   Serial.println("ignore_interval: " + String(ignore_interval));
 //#endif
   this->last_calculation = currrent_time;
