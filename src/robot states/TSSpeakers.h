@@ -4,6 +4,7 @@
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 #include "../music player/MusicPlayer.h"
+#include "../music player/music.h"
 
 class TSSpeakers : public RobotState{
   public:
@@ -12,65 +13,6 @@ class TSSpeakers : public RobotState{
     TSSpeakers(){}
 
   protected:
-    void tokyo_drift(){
-      int melody[] = {
-  NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_F5, REST, NOTE_F5, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  REST
-};
-int durations[] = {
-  4, 4, 4, 4, 4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  1
-};
-
- int size = sizeof(durations) / sizeof(int);
-
-  for (int note = 0; note < size; note++) {
-    //to calculate the note duration, take one second divided by the note type.
-    //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
-    int duration = 1000 / durations[note];
-    tone(buzzer_pin, melody[note], duration);
-
-    //to distinguish the notes, set a minimum time between them.
-    //the note's duration + 30% seems to work well:
-    int pauseBetweenNotes = duration * .75;
-    delay(pauseBetweenNotes);
-
-    //stop the tone playing:
-    noTone(buzzer_pin);
-  }
-}
     // Add variables here
     uint8_t buzzer_pin = 12;
 
@@ -84,7 +26,7 @@ int durations[] = {
     void enter() override{
       pinMode(buzzer_pin, OUTPUT);
       music_player.set_loop(true);
-      music_player.set_song(melody, durations, 65, .75);
+      music_player.set_song(doom_melody, doom_durations, doom_size, .65);
       music_player.play();
     }
 
@@ -99,49 +41,6 @@ int durations[] = {
 	//      }
     }
     State * go_next_state() override{}
-
-    private:
-
-      int melody[65] = {
-  NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_F5, REST, NOTE_F5, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_GS5, NOTE_FS5, NOTE_F5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  NOTE_AS4, NOTE_B4, NOTE_DS5,
-  NOTE_AS4, REST, NOTE_AS4, REST,
-  REST
-};
-int durations[65] = {
-  4, 4, 4, 4, 4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  3, 3, 4,
-  4, 4, 4, 4,
-  1
-};
 };
 
 #endif
