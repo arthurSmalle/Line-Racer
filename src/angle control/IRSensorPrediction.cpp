@@ -47,3 +47,12 @@ Serial.println("+++++++++++++++++");
       }
 }
 #endif
+float IRSensorPrediction::get_max_angle()
+#if IR_AMOUNT == 2
+{
+	 return tan(SYMM_TO_IR/WHEELS_TO_IR);
+}
+#endif
+#if IR_AMOUNT == 3
+{} //TODO IMPLEMENT THIS LATER
+#endif

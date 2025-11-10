@@ -2,7 +2,7 @@
 #define ROBOT_STATE_H
 #include "State.h"
 #include "../motor control/ControlledMotorDriver.h"
-#include "../angle control/IRSensorPrediction.h"
+#include "../angle control/AngleController.h"
 #include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
 
@@ -22,8 +22,8 @@ class RobotState: public State{
     // override functions
     void virtual update() override{
       // make reading for the angle
-      ir_sens.update_ir_readings();
-      angle = ir_sens.predict_angle();
+      angle_controller.update();
+      angle = angle_controller.get_predicted_angle();
 
       // calculate output with the pid
       angle_error_signal = angle;
@@ -31,10 +31,10 @@ class RobotState: public State{
     }
 
     // static objects
-    static IRSensorPrediction ir_sens;
     static PIDController angle_pid;
     static ControlledMotorDriver motor_cl_l;
     static ControlledMotorDriver motor_cl_r;
+    static AngleController angle_controller;
     static MusicPlayer music_player;
 
   private:
@@ -45,9 +45,9 @@ class RobotState: public State{
 };
 
 // initialize the static fields of this class
-IRSensorPrediction RobotState::ir_sens = IRSensorPrediction();
 ControlledMotorDriver RobotState::motor_cl_l = ControlledMotorDriver(10, 2400, MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
 ControlledMotorDriver RobotState::motor_cl_r = ControlledMotorDriver(0, 2400, MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
+AngleController RobotState::angle_controller = AngleController(&motor_cl_l, &motor_cl_r);
 MusicPlayer RobotState::music_player = MusicPlayer(MUSIC_PIN);
 
 // variables for angle pid
