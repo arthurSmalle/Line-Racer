@@ -1,6 +1,7 @@
 # Algemeen
 # PID
 # Motor controller
+- Implement detection for standstill (zero rpm)
 # Angle Controller
 # Line following
 #ROBOT state

@@ -11,6 +11,7 @@ class AngleController{
     float get_predicted_angle(){return this->predicted_angle;} // get a estimate of the angle determined by calculations and tests before runtime
     unsigned long get_time_since_real_measured(); // get time since the real angle was measured (to avoid using "old" data)
     bool get_is_outside_ir_range(); // get if the real angle is outside the infrared sensor range (meaning the robot goes off track!)
+    bool get_ir_triggered(){return this->ir_triggered;}
 
     AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r){
       this->motor_cl_l = motor_cl_l;

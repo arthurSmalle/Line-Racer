@@ -28,6 +28,10 @@ class RobotState: public State{
       // calculate output with the pid
       angle_error_signal = angle;
       angle_pid.update();
+
+      // update the moters
+      motor_cl_l.update();
+      motor_cl_r.update();
     }
 
     // static objects
