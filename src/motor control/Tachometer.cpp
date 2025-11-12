@@ -3,6 +3,7 @@
 #define MICROS_IN_MINUTE 60000000
 #define GEAR_RATIO 120 
 #define READ_RESOLUTION 16
+#define MICROS_TILL_STAGNATE 30000
 
 // initialse the static var
 uint8_t Tachometer::pinsA[MAX_INSTANCE_AMOUNT] = {0};
@@ -15,18 +16,25 @@ volatile unsigned long Tachometer::last_time[MAX_INSTANCE_AMOUNT]; // list time 
 volatile unsigned long Tachometer::duration[MAX_INSTANCE_AMOUNT] = {0};
 volatile float Tachometer::rpm[MAX_INSTANCE_AMOUNT] = {0};
 
+// get rpm and check if the wheel is not standing still
+float Tachometer::get_rpm(){
+  unsigned long currrent_time = micros();
+  unsigned long time_diff = currrent_time - last_time[id];
+  this->time_diff = time_diff;
+
+  // check if wheel has rotated recently, otherwise set RPM to 0
+   if (time_diff > MICROS_TILL_STAGNATE){
+    rpm[this->id] = 0;
+  }
+  return rpm[this->id];
+}
+
 // calculate rpm in function of amount of rotations
 void Tachometer::calculate_rpm(const uint8_t id){
   unsigned long currrent_time = micros();
 
   unsigned long time_diff = currrent_time - last_time[id];
   rpm[id] =  (1/float(GEAR_RATIO))* (float(MICROS_IN_MINUTE) / time_diff);
-//#ifdef DEBUG
-  // Serial.println("=== TACHODEBUG ===");
-  // Serial.println("duration: " + String(duration[id]));
-  // Serial.println("time_diff: " + String(time_diff));
-  // Serial.println("rpm: " + String(rpm[id]));
-//#endif
   last_time[id] = currrent_time;
 }
 

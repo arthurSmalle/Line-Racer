@@ -12,7 +12,8 @@ class Tachometer{
     void disable();
     
     uint8_t get_id(){return this->id;}
-    float get_rpm(){return rpm[this->id];}
+    float get_rpm();
+    unsigned long get_time_diff(){return this->time_diff;}
 
     Tachometer(const uint8_t pinA,const uint8_t id){
       if (id < MAX_INSTANCE_AMOUNT && id >= 0){
@@ -42,6 +43,8 @@ class Tachometer{
     }
 
   private:
+    // DEBUG VAL
+    unsigned long time_diff;
     // used as glue function (NOT CLEAN CODE)
     uint8_t id;
     static uint8_t pinsA[MAX_INSTANCE_AMOUNT];

@@ -19,15 +19,17 @@ class TSTachometer : public State{
     bool next_ready = false;
 
     void enter() override{
-      pysical_motor.set_throttle(10);
+      pysical_motor.set_throttle(15);
       tacho.enable();
     }
     void update()override{
       this->rpm = tacho.get_rpm();
 //      pid.calculate_output();
       tacho_error = this->set_point - rpm;
+      unsigned long time_diff = tacho.get_last_time();
       Serial.println("====FSM Debug====");
       Serial.println("FSMRPM: " + String(rpm));
+      Serial.println("time_diff" + String(time_diff));
       delay(100);
     }
     State * go_next_state()override{}
