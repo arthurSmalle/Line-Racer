@@ -11,29 +11,23 @@ uint8_t Tachometer::pinsB[MAX_INSTANCE_AMOUNT] = {0};
 volatile bool Tachometer::directions[MAX_INSTANCE_AMOUNT] = {0}; // true = forward, false = backward
 volatile uint8_t Tachometer::last_states[MAX_INSTANCE_AMOUNT] = {0};
 #endif
+volatile unsigned long Tachometer::last_time[MAX_INSTANCE_AMOUNT]; // list time in ms since the last calculation 
 volatile unsigned long Tachometer::duration[MAX_INSTANCE_AMOUNT] = {0};
-volatile uint8_t Tachometer::sample_counter[MAX_INSTANCE_AMOUNT] = {0}; // keeps count for when to sample
+volatile float Tachometer::rpm[MAX_INSTANCE_AMOUNT] = {0};
 
-// THERE SHOULD BE A CONSIDIRABLE DELAY BETWEEN CALLING THIS FUNCTION PERIODICLY
-void Tachometer::calculate_rpm(const bool ignore_interval){
+// calculate rpm in function of amount of rotations
+void Tachometer::calculate_rpm(const uint8_t id){
   unsigned long currrent_time = micros();
 
-  // chech if enough time passed to do calculation or if the interval should be ignored
-  if (((currrent_time - this->last_calculation) > this->interval) || ignore_interval){
-  float rotations = float(duration[id]) / (GEAR_RATIO * READ_RESOLUTION);
-  unsigned long passed_time = currrent_time - last_calculation;
-  rpm = (rotations / float(passed_time)) * MICROS_IN_MINUTE;
+  unsigned long time_diff = currrent_time - last_time[id];
+  rpm[id] =  (1/float(GEAR_RATIO))* (float(MICROS_IN_MINUTE) / time_diff);
 //#ifdef DEBUG
-  Serial.println("=== TACHODEBUG ===");
-  Serial.println("duration: " + String(duration[id]));
-  Serial.println("rotations: " + String(rotations));
-  Serial.println("passed_time: " + String(passed_time));
-  Serial.println("rpm: " + String(this->rpm));
-  Serial.println("ignore_interval: " + String(ignore_interval));
+  // Serial.println("=== TACHODEBUG ===");
+  // Serial.println("duration: " + String(duration[id]));
+  // Serial.println("time_diff: " + String(time_diff));
+  // Serial.println("rpm: " + String(rpm[id]));
 //#endif
-  this->last_calculation = currrent_time;
-  duration[id] = 0;
-  }
+  last_time[id] = currrent_time;
 }
 
 void Tachometer::enable(){
@@ -55,15 +49,6 @@ void Tachometer::disable(){
 
 
 void Tachometer::wheel_speed(const uint8_t id){
-  // sample_counter[id]++;
-  // if (sample_counter[id] > int(TACHO_SAMPLE_SIZE)){
-  //  // check the speed of the rotation
-  //  unsigned long current_time = micros();
-  //  duration[id] = current_time - last_time[id];
-  //  last_time[id] = current_time;
-  //  sample_counter[id] = 0;
-  // }
-
   // check the direction of the rotation
 #if SINGLE_PIN_TACHO == 0
   uint8_t current_state = digitalRead(pinsA[id]);
@@ -76,11 +61,10 @@ void Tachometer::wheel_speed(const uint8_t id){
     }
   }
 #endif
+  // increment the wheel spin counter, when certain value check time diff
   duration[id]++;
-  // last_states[id] = current_state;
-  // if (!directions[id]){
-  //   duration[id]++;
-  // } else {
-  //   duration[id]--;
-  // }
+  if (duration[id] >= READ_RESOLUTION){
+    calculate_rpm(id);
+    duration[id] = 0;
+  }
 }

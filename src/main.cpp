@@ -25,7 +25,7 @@
   TSSpeakers * speaker_test = new TSSpeakers();
   // TSPID * pid_test = new TSPID();
 
-  FSM fsm = FSM(speaker_test);
+  FSM fsm = FSM(tacho_test);
   // global vars
   float error_signal = 0;
   float angle = 0;
