@@ -6,7 +6,7 @@
 
 #include "state machine/FSM.h"
 // states that will be used
-#include "robot states/RSDriveForward.h"
+#include "robot states/RSAdjustOnStraight.h"
 #include "robot states/TSTachometer.h"
 #include "robot states/TSPID.h"
 #include "robot states/RSTemplate.h"

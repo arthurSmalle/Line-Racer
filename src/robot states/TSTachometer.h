@@ -26,7 +26,7 @@ class TSTachometer : public State{
       this->rpm = tacho.get_rpm();
 //      pid.calculate_output();
       tacho_error = this->set_point - rpm;
-      unsigned long time_diff = tacho.get_last_time();
+      unsigned long time_diff = tacho.get_time_diff();
       Serial.println("====FSM Debug====");
       Serial.println("FSMRPM: " + String(rpm));
       Serial.println("time_diff" + String(time_diff));
