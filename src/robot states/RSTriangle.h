@@ -1,28 +1,50 @@
-#ifndef RSTRIANGLE
-#define RSTRIANGLE
+#ifndef RS_TRIANGLE_H
+#define RS_TRIANGLE_H
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 
-class RSTriangle : protected RobotState{
-  private:
-    // Add variables here
-    float side_length = 30;
-    float turn_angle = 120;
+#include "RSDriveForward.h"
 
-    // Add functions here
-    void example_func(){
-      side_length++;
+class RSTriangle : public RobotState{
+  public:
+    RSTriangle(){}
+  protected:
+    float set_point = 20;
+    float_turn_gain = 1.2;
+    unsigned long start_time;
+    const unsigned long max_duration = 2000;
+
+    void enter() override{
+      start_time = millis();
+      motor_cl_l.set_set_point(set_point);
+      motor_cl_r.set_set_point(set_point);
     }
 
-    // put code between {} to implement features
-    void enter() override{}
-    void update() override{}
-    void exit() override{}
-    // add logic for going to next state here
-    State * go_next_state() override{}
-   
-    // constructor (leave empty)
-    RSTriangle(){}
+    void update() override{
+      ir_sens.update_ir_readings();
+      angle = ir_sens.predict_angle();
+
+      float left_speed = set_point - turn_gain * angle;
+      float right_speed = set_point + turn_gain * angle;
+      left_speed = constrain(left_speed, -set_point, set_point);
+      right_speed = constrain(right_speed, -set_point, set_point);
+      motor_cl_l.set_set_point(left_speed);
+      motor_cl_r.set_set_point(right_speed);
+      motor_cl_l.update();
+      motor_cl_r.update();
+
+      if (abs(angle) > 10) {
+        start_time = millis();
+      }
+
+      if (millis() - start_time > max_duration){
+        this->next_ready = true;
+      }
+    }
+
+    State * go_next_state() override{
+      return new RSDriveForward();
+    }    
 };
 
 #endif
