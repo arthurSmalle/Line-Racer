@@ -3,14 +3,13 @@
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 
-#include "RSDriveForward.h"
 
 class RSTriangle : public RobotState{
   public:
-    RSTriangle(){}
+    RSTriangle(){};
   protected:
     float set_point = 20;
-    float_turn_gain = 1.2;
+    float turn_gain = 1.2;
     unsigned long start_time;
     const unsigned long max_duration = 2000;
 
@@ -21,19 +20,16 @@ class RSTriangle : public RobotState{
     }
 
     void update() override{
-      ir_sens.update_ir_readings();
-      angle = ir_sens.predict_angle();
+      RobotState::update();
 
-      float left_speed = set_point - turn_gain * angle;
-      float right_speed = set_point + turn_gain * angle;
+      float left_speed = set_point - turn_gain * get_angle_pid_output();
+      float right_speed = set_point + turn_gain * get_angle_pid_output();
       left_speed = constrain(left_speed, -set_point, set_point);
       right_speed = constrain(right_speed, -set_point, set_point);
       motor_cl_l.set_set_point(left_speed);
       motor_cl_r.set_set_point(right_speed);
-      motor_cl_l.update();
-      motor_cl_r.update();
 
-      if (abs(angle) > 10) {
+      if (abs(get_angle()) > 10) {
         start_time = millis();
       }
 
@@ -43,7 +39,6 @@ class RSTriangle : public RobotState{
     }
 
     State * go_next_state() override{
-      return new RSDriveForward();
     }    
 };
 

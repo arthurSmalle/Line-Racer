@@ -3,9 +3,6 @@
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 
-#include "StateGlue.h"
-#include "StatesEnum.h"
-
 class RSCurve : public RobotState{
   public:
     RSCurve(){}
@@ -64,7 +61,6 @@ const unsigned long RSCurve::curve_treshold = 200;
 // this needs to be defined after the class is delacered (otherwise refrence to RSAdjustOnStraight not found)
 State * RSCurve::go_next_state(){
   if (straigth_detected){
-    return new StateGlue(StatesEnum::AdjustOnStraight);
   }
 }
 

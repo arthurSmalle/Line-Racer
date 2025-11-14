@@ -24,10 +24,8 @@ class RSLineLost : public RobotState{
     }
 
     void update() override{
-        ir_sens.update_ir_readings();
-        angle = ir_sens.predict_angle();
-    
-        if (angle != 0){
+      RobotState::update();
+        if (angle_controller.get_ir_triggered()){
           line_found = true;
           this->next_ready = true;
         }
@@ -48,9 +46,6 @@ class RSLineLost : public RobotState{
                 }
             }
         }
-
-        motor_cl_l.update();
-        motor_cl_r.update();
     }
 
     State * go_next_state() override{

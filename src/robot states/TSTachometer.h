@@ -21,7 +21,6 @@ class TSTachometer : public State{
     void enter() override{
       pysical_motor.set_throttle(15);
       tacho.enable();
-      tacho.set_interval(this->tacho_interval);
     }
     void update()override{
       this->rpm = tacho.get_rpm();
