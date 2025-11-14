@@ -14,6 +14,10 @@ class DerivativeController : public Controller{
       this->time_component = time_component;
     };
 
+    void set_Kd(const float Kd){
+      this->Kd = Kd;
+    }
+
 // later obfuscate this function
     void calculate_output() override{
       float rico = (*error_signal - last_measurement) / this->time_component;

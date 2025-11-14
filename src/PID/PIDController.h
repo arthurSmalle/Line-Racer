@@ -11,6 +11,10 @@ class PIDController: public Controller{
     PIDController(const float Kp, const float Ki, const float Kd, const float resolution, const float time_component, const float set_point, float * const error_signal, float * const output_signal): Controller(error_signal, output_signal), PController(Kp, error_signal, &p_output), IController(Ki, resolution, set_point, error_signal, &i_output), DController(Kd,resolution, time_component, error_signal, &d_output){
       this->error_signal = error_signal;
     };
+
+    void set_Kp(const float Kp){this->PController.set_Kp(Kp);}
+    void set_Ki(const float Ki){this->IController.set_Ki(Ki);}
+    void set_Kd(const float Kd){this->DController.set_Kd(Kd);}
     
     void calculate_output() override{
 	this->PController.calculate_output(); 
