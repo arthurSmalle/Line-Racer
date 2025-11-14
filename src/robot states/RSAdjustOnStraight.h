@@ -3,6 +3,8 @@
 #include "state machine/RobotState.h"
 #include <Arduino.h>
 
+// TEMP FOR TESTING TRANSITION BETWEEN STRAIGHT AND CURVE
+#include "RSCurve.h"
 
 class RSAdjustOnStraight : public RobotState{
   public:
@@ -61,7 +63,7 @@ const unsigned long RSAdjustOnStraight::curve_treshold = 200;
 // this needs to be defined after the class is delacered (otherwise refrence to RSCurve not found)
 State * RSAdjustOnStraight::go_next_state(){
   if (curve_detected){
-    // spawn new class here
+    return new RSCurve();
   }
 }
 
