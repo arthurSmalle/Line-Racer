@@ -11,6 +11,7 @@
 #include "robot states/TSPID.h"
 #include "robot states/RSTemplate.h"
 #include "robot states/TSSpeakers.h"
+#include "robot states/TSMOTORCTL.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -23,9 +24,12 @@
   TSTachometer * tacho_test = new TSTachometer(47.2,100, 3000);
   RSTemplate * rstemplate = new RSTemplate();
   TSSpeakers * speaker_test = new TSSpeakers();
+  RSAdjustOnStraight * straight = new RSAdjustOnStraight();
+  TSMOTORCTL * motor = new TSMOTORCTL();
+
   // TSPID * pid_test = new TSPID();
 
-  FSM fsm = FSM(tacho_test);
+  FSM fsm = FSM(motor);
   // global vars
   float error_signal = 0;
   float angle = 0;
@@ -37,7 +41,6 @@
   
   void setup(){
     Serial.begin(115200);
-    while(!Serial);
   }
 
 void loop(){

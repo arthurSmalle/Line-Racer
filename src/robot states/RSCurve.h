@@ -30,8 +30,11 @@ class RSCurve : public RobotState{
 
     void update() override{
       RobotState::update();
+      Serial.println("CURVE STATE");
 
       unsigned long current_time = millis();
+
+      Serial.println();
 
       motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_factor));
       motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() * turn_factor));
@@ -56,7 +59,7 @@ class RSCurve : public RobotState{
 };
 
 unsigned long RSCurve::time_since_last_adjustment = 0;
-const unsigned long RSCurve::curve_treshold = 200;
+const unsigned long RSCurve::curve_treshold = 400;
 
 // this needs to be defined after the class is delacered (otherwise refrence to RSAdjustOnStraight not found)
 State * RSCurve::go_next_state(){

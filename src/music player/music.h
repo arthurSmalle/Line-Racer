@@ -641,4 +641,9 @@ int mario_durations[mario_size] = {
   8, 8, 8, 8, 8, 8,
   8, 8, 2
 };
+
+const int state_trans_size = 3;
+int state_trans_melody[state_trans_size] = {NOTE_A1, NOTE_E1, NOTE_C1};
+int state_trans_duration[state_trans_size] = {2, 2, 2};
+
 #endif
