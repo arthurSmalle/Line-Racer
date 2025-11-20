@@ -1,6 +1,7 @@
 #ifndef TS_MOTORCL_H 
 #define TS_MOTORCL_H
 #include "state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
 #include <Arduino.h>
 
 class TSMOTORCTL : public RobotState{
@@ -42,7 +43,7 @@ class TSMOTORCTL : public RobotState{
     // this is called when in in main you do:
     // ready_go_next = true;
     // this ends the update loop!
-    State * go_next_state() override{}
+    StatesEnum  go_next_state() override{}
 };
 
 #endif

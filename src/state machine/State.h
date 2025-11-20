@@ -1,6 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 #include <Arduino.h>
+#include "StatesEnum.h"
 
 class State{
   public:
@@ -11,7 +12,7 @@ class State{
 
     void virtual enter();
     void virtual update();
-    State virtual * go_next_state();
+    StatesEnum virtual go_next_state();
 
   // make the FSM a friend class of state (allows acces to protected and private fields
   friend class FSM;

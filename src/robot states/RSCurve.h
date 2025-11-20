@@ -1,6 +1,7 @@
 #ifndef RS_CURVE_H 
 #define RS_CURVE_H
 #include "state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
 #include <Arduino.h>
 
 class RSCurve : public RobotState{
@@ -52,19 +53,13 @@ class RSCurve : public RobotState{
     }
 
     // add logic for going to next state here
-    State * go_next_state() override;
+    StatesEnum go_next_state() override{
+      if (straigth_detected){
+	return StatesEnum::AdjustOnStraight;
+      }
+    }
 
     static unsigned long time_since_last_adjustment; // detect if still in a curve, otherwise adjust to straight line logic
     const static unsigned long curve_treshold; // treshold for determining if the robot is in a curve or not
 };
-
-unsigned long RSCurve::time_since_last_adjustment = 0;
-const unsigned long RSCurve::curve_treshold = 400;
-
-// this needs to be defined after the class is delacered (otherwise refrence to RSAdjustOnStraight not found)
-State * RSCurve::go_next_state(){
-  if (straigth_detected){
-  }
-}
-
 #endif

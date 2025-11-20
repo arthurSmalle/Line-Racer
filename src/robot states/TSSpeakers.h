@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include "../music player/MusicPlayer.h"
 #include "../music player/music.h"
+#include "state machine/StatesEnum.h"
 
 class TSSpeakers : public RobotState{
   public:
@@ -40,7 +41,7 @@ class TSSpeakers : public RobotState{
 	// Serial.println(music_player.get_current_note());
 	//      }
     }
-    State * go_next_state() override{}
+    StatesEnum go_next_state() override{}
 };
 
 #endif

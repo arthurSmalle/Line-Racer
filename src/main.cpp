@@ -1,17 +1,9 @@
 #include <Arduino.h>
-#include "PID/PIDController.h"
-#include "motor control/L298NController.h"
-#include "motor control/ControlledMotorDriver.h"
-#include "angle control/IRSensorPrediction.h"
 
 #include "state machine/FSM.h"
+#include "robot states/RSInit.h"
+#include "state machine/StatesEnum.h"
 // states that will be used
-#include "robot states/RSAdjustOnStraight.h"
-#include "robot states/TSTachometer.h"
-#include "robot states/TSPID.h"
-#include "robot states/RSTemplate.h"
-#include "robot states/TSSpeakers.h"
-#include "robot states/TSMOTORCTL.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -20,16 +12,9 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-  // RSDriveForward * forward = new RSDriveForward();
-  TSTachometer * tacho_test = new TSTachometer(47.2,100, 3000);
-  RSTemplate * rstemplate = new RSTemplate();
-  TSSpeakers * speaker_test = new TSSpeakers();
-  RSAdjustOnStraight * straight = new RSAdjustOnStraight();
-  TSMOTORCTL * motor = new TSMOTORCTL();
+  RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
 
-  // TSPID * pid_test = new TSPID();
-
-  FSM fsm = FSM(motor);
+  FSM fsm = FSM(rsinit);
   // global vars
   float error_signal = 0;
   float angle = 0;

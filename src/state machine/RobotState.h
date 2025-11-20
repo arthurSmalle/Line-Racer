@@ -15,8 +15,8 @@ class RobotState: public State{
     float get_angle_pid_output(){return angle_output_signal;}
     float get_angle_pid_set_point(){return angle_pid.get_set_point();}
 
-    float set_angle_error(const float error){angle_error_signal = error;}
-    float set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
+    void set_angle_error(const float error){angle_error_signal = error;}
+    void set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
 
 
     // override functions
@@ -47,25 +47,4 @@ class RobotState: public State{
     static float angle_error_signal; // error signal (input for pid) (only angle estimate needed for input, set point will be subtracted automatically)
     static float angle_output_signal; // output of the angle pid
 };
-
-// initialize the static fields of this class
-ControlledMotorDriver RobotState::motor_cl_l = ControlledMotorDriver(0, 1, MOTOR_L1, MOTOR_L2, TACHO_PIN0A, 0);
-ControlledMotorDriver RobotState::motor_cl_r = ControlledMotorDriver(0, 1, MOTOR_R1, MOTOR_R2, TACHO_PIN1A, 1);
-AngleController RobotState::angle_controller = AngleController(&motor_cl_l, &motor_cl_r);
-MusicPlayer RobotState::music_player = MusicPlayer(MUSIC_PIN);
-
-// variables for angle pid
-float Kp = 0.5;
-float Ki = 0;
-float Kd = 10;
-float resolution = 0.01;
-float time_component = 10;
-float set_point = 0;
-
-PIDController RobotState::angle_pid =  PIDController(Kp, Ki, Kd, resolution, time_component, set_point, &RobotState::angle_error_signal, &RobotState::angle_output_signal);
-
-// static variables
-float RobotState::angle = 0;
-float RobotState::angle_error_signal = 0;
-float RobotState::angle_output_signal = 0;
 #endif

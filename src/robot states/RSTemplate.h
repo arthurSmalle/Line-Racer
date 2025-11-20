@@ -1,7 +1,10 @@
 #ifndef RS_TEMPLATE_H
 #define RS_TEMPLATE_H
 #include "state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
 #include <Arduino.h>
+
+// WHEN ADDING A NEW STATE, ADD IT TO THE STATESENUM AND ADD IT TO FSM 
 
 class RSTemplate : public RobotState{
   public:
@@ -40,7 +43,7 @@ class RSTemplate : public RobotState{
     // this is called when in in main you do:
     // ready_go_next = true;
     // this ends the update loop!
-    State * go_next_state() override{}
+    StatesEnum go_next_state() override{}
 };
 
 #endif

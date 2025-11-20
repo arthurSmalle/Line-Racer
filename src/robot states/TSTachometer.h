@@ -5,6 +5,7 @@
 #include "../motor control/L298NController.h"
 #include "../motor control/Tachometer.h"
 #include "../PID/PIDController.h"
+#include "state machine/StatesEnum.h"
 
 
 class TSTachometer : public State{
@@ -32,7 +33,7 @@ class TSTachometer : public State{
       Serial.println("time_diff" + String(time_diff));
       delay(100);
     }
-    State * go_next_state()override{}
+    StatesEnum go_next_state()override{}
 
   // make the FSM a friend class of state (allows acces to protected and private fields
   friend class FSM;

@@ -1,13 +1,17 @@
 #ifndef RS_LINE_LOST_H
 #define RS_LINE_LOST_H
 #include "state machine/RobotState.h"
+#include "../state machine/StatesEnum.h"
 #include <Arduino.h>
 
 class RSLineLost : public RobotState{
   public:
-    RSLineLost(RobotState* previous) : previous_state(previous){}
+    RSLineLost(StatesEnum previous){
+      this->previous_state = previous;
+    }
+
   protected:
-    RobotState* previous_state;
+    StatesEnum previous_state;
     float set_point = 20;
     unsigned long lost_start_time = 0;
     unsigned long reverse_start_time = 0;
@@ -48,8 +52,8 @@ class RSLineLost : public RobotState{
         }
     }
 
-    State * go_next_state() override{
-      return previous_state;
+    StatesEnum  go_next_state() override{
+      return this->previous_state;
     }   
 };
 

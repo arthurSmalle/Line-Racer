@@ -1,6 +1,7 @@
 #ifndef RS_TRIANGLE_H
 #define RS_TRIANGLE_H
 #include "state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
 #include <Arduino.h>
 
 
@@ -38,7 +39,7 @@ class RSTriangle : public RobotState{
       }
     }
 
-    State * go_next_state() override{
+    StatesEnum go_next_state() override{
     }    
 };
 

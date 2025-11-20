@@ -3,6 +3,7 @@
 #include <Arduino.h>
 #include "../state machine/RobotState.h"
 #include "PID/PIDController.h"
+#include "state machine/StatesEnum.h"
 
 class TSPID :  public RobotState{
   public:
@@ -27,7 +28,7 @@ class TSPID :  public RobotState{
       Serial.println("PID REACHED STEADY STATE AFTER " + String(counter) + " LOOPS");
       delay(3000);
     }
-    State virtual * go_next_state()override{}
+    StatesEnum virtual  go_next_state()override{}
 
   private:
 

@@ -2,6 +2,7 @@
 #define TS_ANG_MOM_MEASURE_H
 
 #include "../state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
 
 #define AMOUNT_OF_MEASUREMENTS 10
 
@@ -62,7 +63,7 @@ class TSAngMomMeasure : public RobotState{
       }
     }
 
-    State * go_next_state() override{}
+    StatesEnum go_next_state() override{}
 };
 
 #endif
