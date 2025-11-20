@@ -24,7 +24,9 @@ class DerivativeController : public Controller{
       last_measurement = *error_signal;
 
     if ((*error_signal > this->set_point - this->resolution) && (*error_signal < this->set_point + this->resolution)){
-      *this->output_signal = 0;
+      Serial.println("DCLIPPING");
+      //*this->output_signal = 0;
+      *this->output_signal = Kd * rico;
     } else {
       *this->output_signal = Kd * rico;
     }

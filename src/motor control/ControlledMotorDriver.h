@@ -14,7 +14,9 @@ class ControlledMotorDriver{
     void set_set_point(const float set_point){this->set_point = set_point;} // set point in rpm
     void set_clock_wise(bool clk){this->physical_driver.clockwise = clk;};
     void set_update_time(const unsigned long update_time){this->update_time = update_time;} // modify the update time
-									 
+    float get_P_value(){return this->pid.get_P_out();} 
+    float get_I_value(){return this->pid.get_I_out();} 
+    float get_D_value(){return this->pid.get_D_out();} 
     //******************//
     // getter functions //
     //******************//
@@ -31,9 +33,10 @@ class ControlledMotorDriver{
     void stop();
 
     // note: update_time is used as timecomponent for D controller
-    ControlledMotorDriver(const float set_point,  const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const float Kp = .7,const float Ki = .3, const float Kd = .1, const float resolution = 0.1): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id), pid(Kp,Ki,Kd, resolution, update_time,set_point, &this->error_signal, &this->output_signal){
+    ControlledMotorDriver(const float set_point,  const unsigned long update_time, const uint8_t motor_pin_1, const uint8_t motor_pin_2, const uint8_t pinA, const uint8_t id, const float Kp = .5,const float Ki = 0, const float Kd = .2, const float resolution = 0.1, bool ignore_update = true): physical_driver(motor_pin_1, motor_pin_2), tachometer(pinA,id), pid(Kp,Ki,Kd, resolution, update_time,set_point, &this->error_signal, &this->output_signal){
       this->set_point = set_point;
       this->update_time = update_time;
+      this->ignore_update = ignore_update;
       tachometer.enable();
     }
 
@@ -43,6 +46,8 @@ class ControlledMotorDriver{
     float output_signal = 0;
     float rpm = 0; 
     float set_point =0;
+
+    bool ignore_update; 
 
     unsigned long update_time = 150;
     unsigned long last_calculation = 0;

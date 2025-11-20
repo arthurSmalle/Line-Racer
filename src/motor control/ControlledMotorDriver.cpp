@@ -4,7 +4,7 @@
 void ControlledMotorDriver::update(){
   if (this->enabled){
     unsigned long current_time = micros();
-    if ((current_time - this->last_calculation) > this-> update_time){
+    if (((current_time - this->last_calculation) > this-> update_time) || this->ignore_update){
       this->rpm = tachometer.get_rpm();
     
       this->error_signal = this->set_point - this->rpm;

@@ -26,9 +26,6 @@ void IntegralController::calculate_output_wide_scope(){
     {
       integral_value = 0;
       *this->output_signal = 0;
-#ifdef DEBUG
-      Serial.println("CLIPPING");
-#endif
     } else{
       integral_value += *error_signal;
       *this->output_signal = Ki* integral_value;
