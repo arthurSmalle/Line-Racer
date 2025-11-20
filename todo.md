@@ -12,4 +12,4 @@
 - FSM herwerken
 - Buzzer  bij state overgang
 - gyroscoop
-- fix motordirvers
+- rpm calculation speed dynamic (optional and low prior)
