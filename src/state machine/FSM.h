@@ -8,6 +8,7 @@
 #include "../robot states/RSCurve.h"
 #include "../robot states/RSLineLost.h"
 #include "../robot states/RSTriangle.h"
+#include "../robot states/RSInit.h"
 
 class FSM{
   public:
@@ -33,7 +34,7 @@ class FSM{
 	   this->current_state_type = Triangle;
 	   break;
 	default:
-//	   next_state = new RSInit();
+	   next_state = new RSInit(StatesEnum::AdjustOnStraight);
 	   this->current_state_type = Init;
       }
       this->current_state = next_state;
