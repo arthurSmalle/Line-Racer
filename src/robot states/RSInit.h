@@ -23,6 +23,7 @@ class RSInit : public RobotState{
     // keep looping
     void update() override{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
+      Serial.println("Waiting...");
       this->next_ready = true;
     }
     // add logic for going to next state here

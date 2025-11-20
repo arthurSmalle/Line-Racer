@@ -1,8 +1,6 @@
 #ifndef MUSIC_PLAYER_h
 #define MUSIC_PLAYER_h
-#include "pitches.h"
 #include <Arduino.h>
-#include <cstdint>
 class MusicPlayer{
   public:
     void set_song(int melody[], const int durations[], const int size, const float pause_modifier = 1.30){

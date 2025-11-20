@@ -27,7 +27,7 @@ class TSSpeakers : public RobotState{
     void enter() override{
       pinMode(buzzer_pin, OUTPUT);
       music_player.set_loop(true);
-      music_player.set_song(doom_melody, doom_durations, doom_size, .65);
+      music_player.set_song(tokyo_melody, tokyo_durations, tokyo_size, .75);
       music_player.play();
     }
 

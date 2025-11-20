@@ -11,7 +11,8 @@ class RSAdjustOnStraight : public RobotState{
     //===========//
     // variables //
     //===========//
-    float base_speed = 40;
+    float base_speed = 80;
+    float turn_modifier = 180;
     bool curve_detected = false; // for state transision to curve logic
     
     //===========//
@@ -29,32 +30,7 @@ class RSAdjustOnStraight : public RobotState{
       motor_cl_l.set_set_point(base_speed);
       motor_cl_r.set_set_point(base_speed);
     }
-
-    void update() override{
-      RobotState::update();
-      Serial.println("STRAIGHT STATE");
-
-      unsigned long current_time = millis();
-
-      // DEBUG PRINT
-
-      // motor_cl_l.set_set_point(base_speed );
-      // motor_cl_r.set_set_point(base_speed );
-      Serial.println("Angle: " + String(get_angle()));
-      Serial.println("PID output: " + String(get_angle_pid_output()));
-      motor_cl_l.set_set_point(base_speed + get_angle_pid_output());
-      motor_cl_r.set_set_point(base_speed - get_angle_pid_output());
-      // detect if needed adjustment
-	//      if (angle_controller.get_ir_triggered()){
-	// if ((current_time - time_since_last_adjustment) <= curve_treshold){
-	//   curve_detected = true;
-	//   this->next_ready = true;
-	// } else {
-	//   time_since_last_adjustment = current_time;
-	// }
-	//      }
-
-    }
+    void update() override;
 
     // add logic for going to next state here
      StatesEnum go_next_state() override{
