@@ -15,6 +15,11 @@ class PIDController: public Controller{
     void set_Kp(const float Kp){this->PController.set_Kp(Kp);}
     void set_Ki(const float Ki){this->IController.set_Ki(Ki);}
     void set_Kd(const float Kd){this->DController.set_Kd(Kd);}
+
+    // return the individual value's for debugging
+    float get_P_out(){return this->PController.get_output_signal();}
+    float get_I_out(){return this->IController.get_output_signal();}
+    float get_D_out(){return this->DController.get_output_signal();}
     
     void calculate_output() override{
 	this->PController.calculate_output(); 
@@ -22,12 +27,6 @@ class PIDController: public Controller{
 	this->DController.calculate_output();
 	
 	*this->output_signal = p_output + i_output + d_output;
-
-	#ifdef DEBUG
-	  Serial.println("P: " + String(this->PController.get_output_signal()));
-	  Serial.println("I: " + String(this->IController.get_output_signal()));
-	  Serial.println("D: " + String(this->DController.get_output_signal()));
-	#endif
     }
     
     void set_set_point(const float set_point) override{
