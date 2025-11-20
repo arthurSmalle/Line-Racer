@@ -5,6 +5,8 @@
 #include <Arduino.h>
 
 #include "RSCurve.h"
+// TEMP FOR TESTING TRANSITION BETWEEN STRAIGHT AND CURVE
+#include "RSCurve.h"
 
 class RSAdjustOnStraight : public RobotState{
   public:
