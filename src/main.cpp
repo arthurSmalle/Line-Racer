@@ -16,19 +16,14 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-//  RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
+  RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   TSSpeakers * speaker = new TSSpeakers();
   TSMagnetometer * magmeter = new TSMagnetometer();
 //  RSAdjustOnStraight * straigt = new RSAdjustOnStraight();
-  FSM fsm = FSM(magmeter);
+  FSM fsm = FSM(rsinit);
   
   void setup(){
     Serial.begin(115200);
-     if(!IMU.begin()){
-       while (1){
-	Serial.println("failed to begin imu");
-       }
-     }
   }
 
 void loop(){

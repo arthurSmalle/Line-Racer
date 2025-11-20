@@ -24,6 +24,7 @@ class RSAdjustOnStraight : public RobotState{
     // override functions //
     //====================//
     void enter() override{
+      Serial.println("ENTERED STRAINGADJUST");
       motor_cl_l.set_clock_wise(false);
       motor_cl_l.enable();
       motor_cl_r.enable();

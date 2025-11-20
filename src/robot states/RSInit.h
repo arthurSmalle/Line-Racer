@@ -18,6 +18,7 @@ class RSInit : public RobotState{
       RobotState::motor_cl_l.set_clock_wise(false);
       RobotState::motor_cl_l.enable();
       RobotState::motor_cl_r.enable();
+      delay(2000);
     }
 
     // keep looping
@@ -31,6 +32,7 @@ class RSInit : public RobotState{
     // ready_go_next = true;
     // this ends the update loop!
     StatesEnum go_next_state() override{
+      Serial.println("Going next state");
       return this->next_state;
     }
 };

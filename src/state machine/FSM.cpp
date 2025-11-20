@@ -1,4 +1,6 @@
+#include <Arduino.h>
 #include "FSM.h"
+#include "state machine/StatesEnum.h"
 
 void FSM::update(){
   // check if state is ready to change
@@ -15,3 +17,32 @@ void FSM::update(){
 
   (this->current_state)->update();
 }
+
+void FSM::set_current_state(const StatesEnum stateType){ 
+      free(this->current_state); // remove the old state
+      State *next_state;
+      switch (stateType){
+	case StatesEnum::AdjustOnStraight:
+	Serial.println(" FSM Detected state AdjustOnStraight");
+	  next_state = new RSAdjustOnStraight();
+	  this->current_state_type = AdjustOnStraight;
+	  break;
+	case StatesEnum::Curve:
+	   next_state = new RSCurve();
+	   this->current_state_type = Curve;
+	   break;
+	case StatesEnum::LostLine:
+//	   next_state = new RSLineLost();
+	   this->current_state_type = LostLine;
+	   break;
+	case StatesEnum::Triangle:
+	   next_state = new RSTriangle();
+	   this->current_state_type = Triangle;
+	   break;
+	default:
+	   next_state = new RSInit(StatesEnum::AdjustOnStraight);
+	   this->current_state_type = Init;
+      }
+      this->current_state = next_state;
+      this->changed_state = true;
+    }
