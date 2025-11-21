@@ -5,6 +5,7 @@
 #include "state machine/StatesEnum.h"
 #include <Arduino.h>
 #include <Arduino_LSM9DS1.h>
+#include "../angle control/LSM9DS1Controller.h"
 
 class TSMagnetometer: public RobotState{
   public:

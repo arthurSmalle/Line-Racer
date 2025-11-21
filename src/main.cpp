@@ -20,7 +20,7 @@
   TSSpeakers * speaker = new TSSpeakers();
   TSMagnetometer * magmeter = new TSMagnetometer();
 //  RSAdjustOnStraight * straigt = new RSAdjustOnStraight();
-  FSM fsm = FSM(rsinit);
+  FSM fsm = FSM(magmeter);
   
   void setup(){
     Serial.begin(115200);
