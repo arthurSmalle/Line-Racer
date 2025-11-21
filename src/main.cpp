@@ -9,18 +9,12 @@
 #include "robot states/TSSpeakers.h"
 #include "robot states/TSMagnetometer.h"
 
-  // constants
-  const float BASE_RPM = 30;
-  const float TURNING_RPM = 15;
-  const float ANGLE_AMP = 10;
-  const float TURN_RATE = 20; // if > 1 makes turnrate faster
-  
   // global objects
-  RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
+  // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   TSSpeakers * speaker = new TSSpeakers();
-  TSMagnetometer * magmeter = new TSMagnetometer();
+  // TSMagnetometer * magmeter = new TSMagnetometer();
 //  RSAdjustOnStraight * straigt = new RSAdjustOnStraight();
-  FSM fsm = FSM(magmeter);
+  FSM fsm = FSM(speaker);
   
   void setup(){
     Serial.begin(115200);

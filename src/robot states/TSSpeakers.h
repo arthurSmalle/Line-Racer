@@ -15,7 +15,7 @@ class TSSpeakers : public RobotState{
 
   protected:
     // Add variables here
-    uint8_t buzzer_pin = 12;
+    uint8_t buzzer_pin = MUSIC_PIN;
 
     // Add functions here
     // functions can only be called from enter, update and go_next_state
