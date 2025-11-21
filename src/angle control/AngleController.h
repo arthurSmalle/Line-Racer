@@ -2,6 +2,10 @@
 #define ANGLE_CONTROLLER_H
 #include "IRSensorPrediction.h"
 #include "../motor control/ControlledMotorDriver.h"
+#include "angle control/MagMeterController.h"
+#ifdef ARDUINO_NANO_BLE
+#include "LSM9DS1Controller.h"
+#endif ARDUINO_NANO_BLE
 
 class AngleController{
   public:
@@ -13,7 +17,10 @@ class AngleController{
     bool get_is_outside_ir_range(); // get if the real angle is outside the infrared sensor range (meaning the robot goes off track!)
     bool get_ir_triggered(){return this->ir_triggered;}
 
-    AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r){
+    // WARNING THIS WILL STALL THE PROGRAM
+    void set_mag_zp(const int measurements);
+
+    AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r) : IntegratedMag(){
       this->motor_cl_l = motor_cl_l;
       this->motor_cl_r = motor_cl_r;
     }
@@ -24,11 +31,14 @@ class AngleController{
     IRSensorPrediction ir_sens = IRSensorPrediction();
     const ControlledMotorDriver * motor_cl_l;
     const ControlledMotorDriver * motor_cl_r;
-
+    
+    // When ir => real angle = ir angle, predicted_angle = magneto angle
     float real_angle = 0.0;
     float predicted_angle = 0.0;
 
     bool ir_triggered = false;
     bool outside_ir_range = false;
+
+    MagMeterController * IntegratedMag;
 };
 #endif

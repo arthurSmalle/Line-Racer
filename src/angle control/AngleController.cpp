@@ -14,11 +14,14 @@ void AngleController::update(){
   if (ir_data != 0){
     ir_triggered = true;
     this->real_angle = ir_last_data;
-    this->predicted_angle = ir_last_data;
   }
 
   // check if left ir sens range (based on potential gyro measurment)
-  if (abs(this->real_angle) > ir_sens.get_max_angle()){
+  if (abs(this->predicted_angle) > ir_sens.get_max_angle()){
     this->outside_ir_range = true;
   }
+}
+
+void AngleController::set_mag_zp(const int measurments){
+  float x_measure, y_measure = 0;
 }
