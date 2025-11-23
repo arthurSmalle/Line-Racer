@@ -8,6 +8,7 @@
 
 #include "robot states/TSSpeakers.h"
 #include "robot states/TSMagnetometer.h"
+#include "robot states/TSAngleController.h"
 
   // constants
   const float BASE_RPM = 30;
@@ -16,14 +17,17 @@
   const float TURN_RATE = 20; // if > 1 makes turnrate faster
   
   // global objects
-  RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
-  TSSpeakers * speaker = new TSSpeakers();
-  TSMagnetometer * magmeter = new TSMagnetometer();
+  // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
+  // TSSpeakers * speaker = new TSSpeakers();
+  // TSMagnetometer * magmeter = new TSMagnetometer();
+  TSAngleController * anglecontroller = new TSAngleController();
 //  RSAdjustOnStraight * straigt = new RSAdjustOnStraight();
-  FSM fsm = FSM(magmeter);
+  FSM fsm = FSM(anglecontroller);
   
   void setup(){
     Serial.begin(115200);
+    IMU.begin();
+    while(!Serial);
   }
 
 void loop(){

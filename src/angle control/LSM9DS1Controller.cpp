@@ -2,6 +2,14 @@
 #include <Arduino.h>
 #include <Arduino_LSM9DS1.h>
 
+int LSM9DS1Controller::init(){
+  return IMU.begin();
+}
+
+void LSM9DS1Controller::update(){
+  get_mag_data(this->x, this->y, this->z);
+}
+
 int LSM9DS1Controller::get_mag_data(float &x,float &y,float &z){
   if (IMU.readMagneticField(x, y, z)){
     return 1;

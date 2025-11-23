@@ -9,6 +9,13 @@
 
 class AngleController{
   public:
+    // DEBUGING FUNCTION
+    void get_IMU_DATA(float &x, float &y, float &z){
+      this->IntegratedMag->get_measured_data(x,y,z);
+    }
+    void get_zp_data(float &x, float &y, float &z){
+      this->IntegratedMag->get_zp_data(x, y, z);
+    }
     void update(); // update all the measurements and calculations
     float get_real_angle(){return this->real_angle;} // get the "real angle" determined by one of the sensors on runtime
     // TODO implement automatic balancing of real and predicted_angle (based on time since laste measurement)
@@ -17,10 +24,20 @@ class AngleController{
     bool get_is_outside_ir_range(); // get if the real angle is outside the infrared sensor range (meaning the robot goes off track!)
     bool get_ir_triggered(){return this->ir_triggered;}
 
-    // WARNING THIS WILL STALL THE PROGRAM
-    void set_mag_zp(const int measurements);
+    // MAGMETER FUNCTIONS //
+    void set_mag_zp(const int measurements); // WARNING THIS WILL STALL THE PROGRAM
+    void set_mag_angle_ref(const int measurements,float rad = 0); // WARNING THIS WILL STALL THE PROGRAM
+    bool get_imu_status(){return this->could_init_imu;}
 
-    AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r) : IntegratedMag(){
+    AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r){
+      this->IntegratedMag = new LSM9DS1Controller();
+	//      if (IntegratedMag->init()){
+	// Serial.println("Could init IMU");
+	// could_init_imu = true;
+	//      } else {
+	// Serial.println("Could not init IMU");
+	// could_init_imu = false;
+	//      }
       this->motor_cl_l = motor_cl_l;
       this->motor_cl_r = motor_cl_r;
     }
@@ -38,7 +55,10 @@ class AngleController{
 
     bool ir_triggered = false;
     bool outside_ir_range = false;
-
+    
+    // MAGMETER FUNCTIONS //
     MagMeterController * IntegratedMag;
+    void get_average_mag_data(float &x,float &y,float &z, int measurements); // WARNING THIS WILL STALL THE PROGRAM
+    bool could_init_imu = false;
 };
 #endif
