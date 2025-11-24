@@ -1,6 +1,5 @@
 #ifndef TS_ANGLECONTROLLER_H
 #define TS_ANGLECONTROLLER_H
-#include "api/Common.h"
 #include "state machine/RobotState.h"
 #include "state machine/StatesEnum.h"
 #include <Arduino.h>
@@ -12,12 +11,10 @@ class TSAngleController : public RobotState{
     TSAngleController(){}
 
   protected:
+
+#ifdef IMU
     int calibration_measurse = 30;
-
-    // put code between {} to implement features
-
-    // do something on start of the state (only does this once)
-    void enter() override{
+    void calibrate_angle(){
       delay(3000);
       Serial.println("ENTERED THE ANGLE CONTROLLER STATE");
       motor_cl_l.stop();
@@ -39,17 +36,29 @@ class TSAngleController : public RobotState{
       motor_cl_l.set_set_point(0);
       angle_controller.set_mag_angle_ref(calibration_measurse);
     }
+#endif
+
+    void enter() override{
+#ifdef IMU
+      calibrate_angle();
+#endif
+    }
 
     // keep looping
     void update() override{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
+    
+
+#ifdef IMU
       float mag_angle = angle_controller.get_predicted_angle();
       float angle_in_degree = mag_angle * 180/PI;
       float x,y,z;
       float x_zp, y_zp, z_zp;
       angle_controller.get_IMU_DATA(x, y, z);
-      angle_controller.get_zp_data(x_zp, y_zp, z_zp);
-      Serial.println("$$P-auto,"+ String(mag_angle)+","+String(angle_in_degree)+","+ String(x_zp-x_zp)+","+String(y_zp-y)+","+String(z_zp - z));
+      // angle_controller.get_zp_data(x_zp, y_zp, z_zp);
+      // Serial.println("$$P-auto,"+ String(mag_angle)+","+String(angle_in_degree)+","+ String(x_zp-x)+","+String(y_zp-y)+","+String(z_zp - z));
+      Serial.println("$$P-auto,"+ String(x)+","+String(y)+","+String(z));
+#endif
     }
 
     StatesEnum go_next_state() override{}

@@ -1,5 +1,6 @@
 #ifndef LSM9DS1CONTROLLER_H
 #define LSM9DS1CONTROLLER_H
+#ifdef ARDUINO_NANO_BLE
 #include "MagMeterController.h"
 class LSM9DS1Controller : public MagMeterController{
   public:
@@ -9,4 +10,5 @@ class LSM9DS1Controller : public MagMeterController{
     bool is_mag_ready() override;
     int init() override;
 };
+#endif
 #endif

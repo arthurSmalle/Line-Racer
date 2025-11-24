@@ -1,3 +1,4 @@
+#ifdef ARDUINO_NANO_BLE
 #include "LSM9DS1Controller.h"
 #include <Arduino.h>
 #include <Arduino_LSM9DS1.h>
@@ -25,3 +26,4 @@ bool LSM9DS1Controller::is_mag_ready(){
     return false;
   }
 }
+#endif

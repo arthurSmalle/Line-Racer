@@ -1,7 +1,6 @@
 #ifndef IRSENSORPREDICTION_H
 #define IRSENSORPREDICTION_H
 #include <Arduino.h>
-#include <cstdint>
 class IRSensorPrediction{
 
   public:

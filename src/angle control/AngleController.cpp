@@ -23,14 +23,17 @@ void AngleController::update(){
   }
 
   // update the magdata
+#ifdef IMU
   this->IntegratedMag->update();
-// #ifdef DEBUG
-//   float x,y,z;
-//   this->IntegratedMag->get_mag_data(x, y, z);
-//   Serial.println("$$P-auto,"+String(x)+","+String(y)+","+String(y));
-// #endif
+#ifdef DEBUG
+  float x,y,z;
+  this->IntegratedMag->get_mag_data(x, y, z);
+  Serial.println("$$P-auto,"+String(x)+","+String(y)+","+String(y));
+#endif
   this->predicted_angle =  this->IntegratedMag->get_angle_to_zero();
+#endif 
 }
+#ifdef IMU
 // ---------------- //
 // MAGMETER PROGRAM //
 // ---------------- //
@@ -87,3 +90,4 @@ void AngleController::set_mag_angle_ref(const int measurments,float rad){
   get_average_mag_data(x_measure, y_measure, z_measure, measurments);
   this->IntegratedMag->set_angle_to_magdata_ref(rad, x_measure, y_measure, z_measure);
 }
+#endif

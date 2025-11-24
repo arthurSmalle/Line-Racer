@@ -3,6 +3,8 @@
 unsigned long RSAdjustOnStraight::time_since_last_adjustment = 0;
 const unsigned long RSAdjustOnStraight::curve_treshold = 1000;
 
+
+
 void RSAdjustOnStraight::update(){
       RobotState::update();
 
@@ -10,8 +12,8 @@ void RSAdjustOnStraight::update(){
 
       // DEBUG PRINT
 
-      // motor_cl_l.set_set_point(base_speed );
-      // motor_cl_r.set_set_point(base_speed );
+      motor_cl_l.set_set_point(base_speed );
+      motor_cl_r.set_set_point(base_speed );
       motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
       motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
       Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()));
