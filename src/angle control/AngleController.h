@@ -4,14 +4,14 @@
 #include "../motor control/ControlledMotorDriver.h"
 #include "angle control/MagMeterController.h"
 #ifdef ARDUINO_NANO_BLE
-#ifdef IMU
+#ifdef USE_IMU
 #include "LSM9DS1Controller.h"
 #endif
 #endif ARDUINO_NANO_BLE
 
 class AngleController{
   public:
-#ifdef IMU
+#ifdef USE_IMU
     // DEBUGING FUNCTION
     void get_IMU_DATA(float &x, float &y, float &z){
       this->IntegratedMag->get_measured_data(x,y,z);
@@ -28,7 +28,7 @@ class AngleController{
     bool get_is_outside_ir_range(); // get if the real angle is outside the infrared sensor range (meaning the robot goes off track!)
     bool get_ir_triggered(){return this->ir_triggered;}
 
-#ifdef IMU
+#ifdef USE_IMU
     // MAGMETER FUNCTIONS //
     void set_mag_zp(const int measurements); // WARNING THIS WILL STALL THE PROGRAM
     void set_mag_angle_ref(const int measurements,float rad = 0); // WARNING THIS WILL STALL THE PROGRAM
@@ -36,7 +36,7 @@ class AngleController{
 #endif
 
     AngleController(const ControlledMotorDriver * motor_cl_l, const ControlledMotorDriver * motor_cl_r){
-#ifdef IMU
+#ifdef USE_IMU
       this->IntegratedMag = new LSM9DS1Controller();
 #endif
       this->motor_cl_l = motor_cl_l;
@@ -57,7 +57,7 @@ class AngleController{
     bool ir_triggered = false;
     bool outside_ir_range = false;
     
-#ifdef IMU
+#ifdef USE_IMU
     // MAGMETER FUNCTIONS //
     MagMeterController * IntegratedMag;
     void get_average_mag_data(float &x,float &y,float &z, int measurements); // WARNING THIS WILL STALL THE PROGRAM

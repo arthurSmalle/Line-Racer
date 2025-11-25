@@ -6,9 +6,9 @@ AngleController RobotState::angle_controller = AngleController(&motor_cl_l, &mot
 MusicPlayer RobotState::music_player = MusicPlayer(MUSIC_PIN);
 
 // variables for angle pid
-float Kp = 0.5;
+float Kp = 0.7;
 float Ki = 0;
-float Kd = 10;
+float Kd = 0;
 float resolution = 0.01;
 float time_component = 10;
 float set_point = 0;

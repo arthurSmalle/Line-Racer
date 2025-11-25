@@ -23,7 +23,7 @@ void AngleController::update(){
   }
 
   // update the magdata
-#ifdef IMU
+#ifdef USE_IMU
   this->IntegratedMag->update();
 #ifdef DEBUG
   float x,y,z;
@@ -33,7 +33,7 @@ void AngleController::update(){
   this->predicted_angle =  this->IntegratedMag->get_angle_to_zero();
 #endif 
 }
-#ifdef IMU
+#ifdef USE_IMU
 // ---------------- //
 // MAGMETER PROGRAM //
 // ---------------- //

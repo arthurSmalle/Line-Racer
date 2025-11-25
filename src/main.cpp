@@ -8,18 +8,20 @@
 
 #include "robot states/TSSpeakers.h"
 #include "robot states/TSAngleController.h"
+#ifdef USE_IMU
+#include "robot states/TSMagnetometer.h"
+#endif
 
-  
   // global objects
   // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   // TSSpeakers * speaker = new TSSpeakers();
-  TSAngleController * anglecontroller = new TSAngleController();
-//  RSAdjustOnStraight * straigt = new RSAdjustOnStraight();
-  FSM fsm = FSM(anglecontroller);
+  // TSAngleController * anglecontroller = new TSAngleController();
+ RSAdjustOnStraight * straight = new RSAdjustOnStraight();
+  FSM fsm = FSM(straight);
   
   void setup(){
     Serial.begin(115200);
-#ifdef IMU
+#ifdef USE_IMU
     IMU.begin();
 #endif
   }

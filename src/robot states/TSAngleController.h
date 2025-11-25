@@ -12,7 +12,7 @@ class TSAngleController : public RobotState{
 
   protected:
 
-#ifdef IMU
+#ifdef USE_IMU
     int calibration_measurse = 30;
     void calibrate_angle(){
       delay(3000);
@@ -39,8 +39,8 @@ class TSAngleController : public RobotState{
 #endif
 
     void enter() override{
-#ifdef IMU
-      calibrate_angle();
+#ifdef USE_IMU
+//      calibrate_angle();
 #endif
     }
 
@@ -49,11 +49,11 @@ class TSAngleController : public RobotState{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
     
 
-#ifdef IMU
-      float mag_angle = angle_controller.get_predicted_angle();
-      float angle_in_degree = mag_angle * 180/PI;
+#ifdef USE_IMU
+      // float mag_angle = angle_controller.get_predicted_angle();
+      // float angle_in_degree = mag_angle * 180/PI;
       float x,y,z;
-      float x_zp, y_zp, z_zp;
+      // float x_zp, y_zp, z_zp;
       angle_controller.get_IMU_DATA(x, y, z);
       // angle_controller.get_zp_data(x_zp, y_zp, z_zp);
       // Serial.println("$$P-auto,"+ String(mag_angle)+","+String(angle_in_degree)+","+ String(x_zp-x)+","+String(y_zp-y)+","+String(z_zp - z));
