@@ -11,7 +11,7 @@ class RSAdjustOnStraight : public RobotState{
     //===========//
     // variables //
     //===========//
-    float base_speed = 180;
+    float base_speed = 300;
     float turn_modifier = 180;
     bool curve_detected = false; // for state transision to curve logic
     
