@@ -23,7 +23,7 @@ class RobotState: public State{
     void virtual update() override{
       // make reading for the angle
       angle_controller.update();
-      angle = angle_controller.get_predicted_angle();
+      angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
 
       // calculate output with the pid
       angle_error_signal = angle;

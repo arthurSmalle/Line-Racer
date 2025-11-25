@@ -11,7 +11,7 @@ class RSAdjustOnStraight : public RobotState{
     //===========//
     // variables //
     //===========//
-    float base_speed = 80;
+    float base_speed = 180;
     float turn_modifier = 180;
     bool curve_detected = false; // for state transision to curve logic
     
@@ -23,14 +23,7 @@ class RSAdjustOnStraight : public RobotState{
     //====================//
     // override functions //
     //====================//
-    void enter() override{
-      Serial.println("ENTERED STRAINGADJUST");
-      motor_cl_l.set_clock_wise(false);
-      motor_cl_l.enable();
-      motor_cl_r.enable();
-      motor_cl_l.set_set_point(base_speed);
-      motor_cl_r.set_set_point(base_speed);
-    }
+    void enter() override;
     void update() override;
 
     // add logic for going to next state here
