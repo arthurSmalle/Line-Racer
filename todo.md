@@ -8,8 +8,6 @@
 - add getter and setter functions
 
 # Tegen volgende sessie
-- Straigt en curve laten werken
-- FSM herwerken
-- Buzzer  bij state overgang
-- gyroscoop
-- rpm calculation speed dynamic (optional and low prior)
+- Straigt en curve overgang
+- rpm calculation hoek
+- ble

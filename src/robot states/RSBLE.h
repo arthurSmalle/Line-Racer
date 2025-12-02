@@ -1,4 +1,5 @@
 #ifdef ARDUINO_NANO_BLE
+#ifdef USE_BLE
 #ifndef RS_BLE_H
 #define RS_BLE_H
 #include "state machine/RobotState.h"
@@ -17,5 +18,6 @@ class RSBLE : public RobotState{
     StatesEnum go_next_state() override{}
 };
 
+#endif
 #endif
 #endif

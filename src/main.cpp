@@ -11,6 +11,9 @@
 #ifdef USE_IMU
 #include "robot states/TSMagnetometer.h"
 #endif
+#ifdef USE_BLE
+#include <ArduinoBLE.h>
+#endif
 
   // global objects
   // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
@@ -23,6 +26,9 @@
     Serial.begin(115200);
 #ifdef USE_IMU
     IMU.begin();
+#endif
+#ifdef USE_BLE
+    BLE.begin();
 #endif
   }
 
