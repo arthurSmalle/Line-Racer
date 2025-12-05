@@ -18,7 +18,6 @@ class RSInit : public RobotState{
       RobotState::motor_cl_l.set_clock_wise(false);
       RobotState::motor_cl_l.enable();
       RobotState::motor_cl_r.enable();
-      delay(2000);
     }
 
     // keep looping

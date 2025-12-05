@@ -1,5 +1,6 @@
 //#include "../music player/music.h"
 #include "RSAdjustOnStraight.h"
+#include "api/Compat.h"
 unsigned long RSAdjustOnStraight::time_since_last_adjustment = 0;
 const unsigned long RSAdjustOnStraight::curve_treshold = 1000;
 
@@ -50,28 +51,26 @@ void RSAdjustOnStraight::update(){
       p = angle_pid.get_P_out();
       i = angle_pid.get_I_out();
       i = angle_pid.get_D_out();
-      motor_cl_l.set_set_point(base_speed );
-      motor_cl_r.set_set_point(base_speed );
       motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
       motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
       Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + ","+ String(d)+ "," + String(this->time_since_last_adjustment));
       
       // detect adjustments
       if (detect_rising_edge(angle_controller.get_ir_triggered())){
-	if (!just_started){
+	digitalWrite(13, LOW);
+//	if (!just_started){
 	  time_since_last_adjustment = current_time;
-	} else {
-	  just_started = false;
-	}
+	// } else {
+	//   just_started = false;
+	// }
       }
       // detect if takes to long to adjust
-      if ((current_time - time_since_last_adjustment) >= 500){
-	  if (!just_started){
+      if ((current_time - time_since_last_adjustment) >= 100){
+	  // if (!just_started){
 	    curve_detected = true;
-	    motor_cl_r.stop();
-	    motor_cl_l.stop();
-	  } else {
-	  }
+	    next_ready = true;
+	  // } else {
+	  // }
       }
 }
 

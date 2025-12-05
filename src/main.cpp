@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include "robot states/RSInit.h"
 #include "state machine/FSM.h"
 //#include "robot states/RSInit.h"
 #include "state machine/StatesEnum.h"
@@ -20,9 +21,11 @@
   // TSSpeakers * speaker = new TSSpeakers();
   // TSAngleController * anglecontroller = new TSAngleController();
  RSAdjustOnStraight * straight = new RSAdjustOnStraight();
-  FSM fsm = FSM(straight);
+ RSInit * init_state = new RSInit(AdjustOnStraight);
+  FSM fsm = FSM(init_state);
   
   void setup(){
+    pinMode(13, OUTPUT);
     Serial.begin(115200);
 #ifdef USE_IMU
     IMU.begin();
