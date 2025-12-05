@@ -19,3 +19,17 @@ PIDController RobotState::angle_pid =  PIDController(Kp, Ki, Kd, resolution, tim
 float RobotState::angle = 0;
 float RobotState::angle_error_signal = 0;
 float RobotState::angle_output_signal = 0;
+
+void RobotState::update(){
+      // make reading for the angle
+      angle_controller.update();
+      angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
+
+      // calculate output with the pid
+      angle_error_signal = angle;
+      angle_pid.update();
+
+      // update the moters
+      motor_cl_l.update();
+      motor_cl_r.update();
+    }

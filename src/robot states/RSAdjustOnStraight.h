@@ -27,12 +27,7 @@ class RSAdjustOnStraight : public RobotState{
     void update() override;
 
     // add logic for going to next state here
-     StatesEnum go_next_state() override{
-      digitalWrite(13, HIGH);
-      if (curve_detected){
-	return StatesEnum::Curve;
-      }
-    }
+     StatesEnum go_next_state() override;
 
     static unsigned long time_since_last_adjustment; // keep track of when last adjusted to predict if the robot is in a curve
     const static unsigned long curve_treshold; // treshold for determining if the robot is in a curve or not

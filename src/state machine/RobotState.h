@@ -20,19 +20,7 @@ class RobotState: public State{
 
 
     // override functions
-    void virtual update() override{
-      // make reading for the angle
-      angle_controller.update();
-      angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
-
-      // calculate output with the pid
-      angle_error_signal = angle;
-      angle_pid.update();
-
-      // update the moters
-      motor_cl_l.update();
-      motor_cl_r.update();
-    }
+    void virtual update() override;
 
     // static objects
     static PIDController angle_pid;
@@ -46,5 +34,6 @@ class RobotState: public State{
     static float angle; // keep track of the angle deviation of the robot
     static float angle_error_signal; // error signal (input for pid) (only angle estimate needed for input, set point will be subtracted automatically)
     static float angle_output_signal; // output of the angle pid
+    static float PID_decreaser_modifier; // compensate for big pid value and decrease the angle
 };
 #endif
