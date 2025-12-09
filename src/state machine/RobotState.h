@@ -11,13 +11,18 @@ class RobotState: public State{
     RobotState():State(){};
   protected:
     // get and set functions
-    float get_angle(){return angle;};
+    float get_angle(){return angle;}; // get angle from angle controller
     float get_angle_pid_output(){return angle_output_signal;}
     float get_angle_pid_set_point(){return angle_pid.get_set_point();}
+    bool get_pid_mode(){return this->pid_mode;} // check if in pid mode
 
     void set_angle_error(const float error){angle_error_signal = error;}
     void set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
+    void set_pid_mode(const bool mode){this->pid_mode = mode;} // set pid_mode on or off
 
+    // extra functions
+    float time_throttle(float s_max, float s_min, unsigned long start_time, unsigned long end_time);
+    bool detect_rising_edge(const bool new_edge);
 
     // override functions
     void virtual update() override;
@@ -35,5 +40,10 @@ class RobotState: public State{
     static float angle_error_signal; // error signal (input for pid) (only angle estimate needed for input, set point will be subtracted automatically)
     static float angle_output_signal; // output of the angle pid
     static float PID_decreaser_modifier; // compensate for big pid value and decrease the angle
+    // variables for extra function operations
+    bool just_started = true;
+    unsigned long throttle_start_time;
+    bool last_edge = false;
+    bool pid_mode = true; // bang bang or use pid
 };
 #endif

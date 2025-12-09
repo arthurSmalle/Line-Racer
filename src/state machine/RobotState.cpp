@@ -25,11 +25,47 @@ void RobotState::update(){
       angle_controller.update();
       angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
 
-      // calculate output with the pid
-      angle_error_signal = angle;
+      // calculate output with the pid (use only with 2 sensors)
+      if (this->pid_mode){
+	angle_error_signal -= angle_output_signal * .1;
+	if (detect_rising_edge(angle_controller.get_ir_triggered())){
+	  if (angle > 0){
+	    angle_error_signal += 100;
+	  } else {
+	    angle_error_signal -= 100;
+	  }
+	}
+      } else { // if not in pid mode take the raw angle output
+	angle_error_signal = angle;
+      }
       angle_pid.update();
 
       // update the moters
       motor_cl_l.update();
       motor_cl_r.update();
     }
+
+// gives back the speed to throttle the max speed with over time
+// speed - time throttle
+float RobotState::time_throttle(float s_max, float s_min, unsigned long start_time, unsigned long end_time){
+  if (millis() > end_time){
+    float s_diff = s_max - s_min;
+    unsigned long time_diff = end_time - millis();
+    unsigned long total_time = end_time - start_time;
+    float time_mod = float(time_diff)/ float(total_time);
+    return s_diff * (1 - time_mod);
+  } else{
+    return s_min;
+  }
+}
+
+bool RobotState::detect_rising_edge(const bool new_edge){
+  if ((this->last_edge == false) and (new_edge == true)){
+    return  true;
+    this->last_edge = new_edge;
+  }
+  else{
+    return false;
+    this->last_edge = new_edge;
+  }
+}
