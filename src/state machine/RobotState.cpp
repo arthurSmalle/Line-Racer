@@ -30,9 +30,9 @@ void RobotState::update(){
 	angle_error_signal -= angle_output_signal * .1;
 	if (detect_rising_edge(angle_controller.get_ir_triggered())){
 	  if (angle > 0){
-	    angle_error_signal += 100;
+	    angle_error_signal += 10;
 	  } else {
-	    angle_error_signal -= 100;
+	    angle_error_signal -= 10;
 	  }
 	}
       } else { // if not in pid mode take the raw angle output
