@@ -18,21 +18,12 @@ class RobotState: public State{
     void set_angle_error(const float error){angle_error_signal = error;}
     void set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
 
+    // extra functions
+    float time_throttle(float s_max, float s_min, unsigned long start_time, unsigned long end_time);
+    bool detect_rising_edge(const bool new_edge);
 
     // override functions
-    void virtual update() override{
-      // make reading for the angle
-      angle_controller.update();
-      angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
-
-      // calculate output with the pid
-      angle_error_signal = angle;
-      angle_pid.update();
-
-      // update the moters
-      motor_cl_l.update();
-      motor_cl_r.update();
-    }
+    void virtual update() override;
 
     // static objects
     static PIDController angle_pid;
@@ -40,6 +31,9 @@ class RobotState: public State{
     static ControlledMotorDriver motor_cl_r;
     static AngleController angle_controller;
     static MusicPlayer music_player;
+    // variables for extra function operations
+    unsigned long throttle_start_time;
+    bool last_edge = false;
 
   private:
     // static variables

@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-#include "api/Compat.h"
+#include "robot states/RSCurve.h"
 #include "state machine/FSM.h"
 //#include "robot states/RSInit.h"
 #include "state machine/StatesEnum.h"
@@ -20,8 +20,8 @@
   // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   // TSSpeakers * speaker = new TSSpeakers();
   // TSAngleController * anglecontroller = new TSAngleController();
- RSAdjustOnStraight * straight = new RSAdjustOnStraight();
-  FSM fsm = FSM(straight);
+ RSCurve * curve = new RSCurve();
+ FSM fsm = FSM(curve);
 
   // BLE consts and objects 
 #ifdef USE_BLE
