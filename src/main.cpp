@@ -4,19 +4,29 @@
 #include "state machine/StatesEnum.h"
 // states that will be used
 #include "robot states/RSInit.h"
+#ifdef DEMO
+#include "robot states/RSTokyo.h"
+#endif
 #ifdef USE_IMU
 #include "robot states/TSMagnetometer.h"
 #endif
 #ifdef USE_BLE
 #include <ArduinoBLE.h>
+#else
+#include "robot states/RSCurve.h"
 #endif
 
 #ifdef USE_BLE
 RSInit * initial_state = new RSInit(Init);
 FSM fsm = FSM(initial_state);
 #else
+#ifdef DEMO
+RSTokyo * initial_state = new RSTokyo();
+FSM fsm = FSM(initial_state);
+#else
 RSCurve * initial_state = new RSCurve();
 FSM fsm = FSM(initial_state);
+#endif
 #endif
 
   // BLE consts and objects 

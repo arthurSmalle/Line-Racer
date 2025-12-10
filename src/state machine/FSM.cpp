@@ -23,7 +23,6 @@ void FSM::set_current_state(const StatesEnum stateType){
       State *next_state;
       switch (stateType){
 	case StatesEnum::AdjustOnStraight:
-	Serial.println(" FSM Detected state AdjustOnStraight");
 	  next_state = new RSAdjustOnStraight();
 	  this->current_state_type = AdjustOnStraight;
 	  break;
@@ -35,6 +34,9 @@ void FSM::set_current_state(const StatesEnum stateType){
 	   next_state = new RSSuperCurve();
 	   this->current_state_type = SuperCurve;
 	   break;
+	case StatesEnum::Tokyo:
+	   next_state = new RSTokyo();
+	   this->current_state_type = Tokyo;
 	default:
 	   next_state = new RSInit(StatesEnum::AdjustOnStraight);
 	   this->current_state_type = Init;
