@@ -52,11 +52,11 @@ float RobotState::time_throttle(float s_max, float s_min, unsigned long start_ti
 
 bool RobotState::detect_rising_edge(const bool new_edge){
   if ((this->last_edge == false) and (new_edge == true)){
-    return  true;
     this->last_edge = new_edge;
+    return  true;
   }
   else{
-    return false;
     this->last_edge = new_edge;
+    return false;
   }
 }

@@ -12,7 +12,7 @@ class RSCurve : public RobotState{
     // variables //
     //===========//
     float base_speed = 240;
-    float turn_factor = 180; 
+    float turn_modifier = 180; 
     bool straigth_detected = false; // for state transision to curve logic
     //===========//
     // functions //
