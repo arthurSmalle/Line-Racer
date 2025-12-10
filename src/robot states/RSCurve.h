@@ -14,6 +14,7 @@ class RSCurve : public RobotState{
     float base_speed = 240;
     float turn_modifier = 180; 
     bool straigth_detected = false; // for state transision to curve logic
+    bool super_curve_detected = false; // for state transision to curve logic
     //===========//
     // functions //
     //===========//
@@ -23,14 +24,10 @@ class RSCurve : public RobotState{
     // override functions //
     //====================//
     void enter() override;
-
     void update() override;
+    StatesEnum go_next_state() override;
 
-    // add logic for going to next state here
-    StatesEnum go_next_state() override{
-    }
-
-    static unsigned long time_since_last_adjustment; // detect if still in a curve, otherwise adjust to straight line logic
-    const static unsigned long curve_treshold; // treshold for determining if the robot is in a curve or not
+    const static unsigned long super_curve_treshold; // treshold for determining if the robot is in a sharp curve or not
+    const static unsigned long straigth_treshold; // treshold for determining if the robot is on a relative straight line
 };
 #endif

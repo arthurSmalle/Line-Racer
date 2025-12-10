@@ -1,16 +1,9 @@
 #include <Arduino.h>
 
-#include "BLETypedCharacteristics.h"
-#include "robot states/RSCurve.h"
-#include "robot states/RSInit.h"
 #include "state machine/FSM.h"
-//#include "robot states/RSInit.h"
 #include "state machine/StatesEnum.h"
 // states that will be used
-#include "robot states/RSAdjustOnStraight.h"
-
-#include "robot states/TSSpeakers.h"
-#include "robot states/TSAngleController.h"
+#include "robot states/RSInit.h"
 #ifdef USE_IMU
 #include "robot states/TSMagnetometer.h"
 #endif
@@ -18,10 +11,6 @@
 #include <ArduinoBLE.h>
 #endif
 
-  // global objects
-  // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
-  // TSSpeakers * speaker = new TSSpeakers();
-  // TSAngleController * anglecontroller = new TSAngleController();
 #ifdef USE_BLE
 RSInit * initial_state = new RSInit(Init);
 FSM fsm = FSM(initial_state);

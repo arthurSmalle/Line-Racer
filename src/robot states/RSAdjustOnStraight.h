@@ -14,6 +14,7 @@ class RSAdjustOnStraight : public RobotState{
     float base_speed = 300;
     float turn_modifier = 180;
     bool curve_detected = false; // for state transision to curve logic
+    unsigned long start_time = 0; // time stamp for when state was initialzed
     
     //===========//
     // functions //
@@ -25,16 +26,8 @@ class RSAdjustOnStraight : public RobotState{
     //====================//
     void enter() override;
     void update() override;
+     StatesEnum go_next_state() override;
 
-    // add logic for going to next state here
-     StatesEnum go_next_state() override{
-      digitalWrite(13, HIGH);
-      if (curve_detected){
-	return StatesEnum::Curve;
-      }
-    }
-
-    static unsigned long time_since_last_adjustment; // keep track of when last adjusted to predict if the robot is in a curve
     const static unsigned long curve_treshold; // treshold for determining if the robot is in a curve or not
 };
 #endif
