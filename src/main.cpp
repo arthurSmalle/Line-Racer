@@ -1,6 +1,8 @@
 #include <Arduino.h>
 
+#include "BLETypedCharacteristics.h"
 #include "robot states/RSCurve.h"
+#include "robot states/RSInit.h"
 #include "state machine/FSM.h"
 //#include "robot states/RSInit.h"
 #include "state machine/StatesEnum.h"
@@ -20,8 +22,8 @@
   // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   // TSSpeakers * speaker = new TSSpeakers();
   // TSAngleController * anglecontroller = new TSAngleController();
- RSCurve * curve = new RSCurve();
- FSM fsm = FSM(curve);
+RSInit * initial_state = new RSInit(Init);
+FSM fsm = FSM(initial_state);
 
   // BLE consts and objects 
 #ifdef USE_BLE
@@ -30,7 +32,7 @@
 //  const char * deviceServiceResponseCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1216";
 
     BLEService followingLineService(deviceServiceUuid);
-    BLEBoolCharacteristic followingLineRequestCharacteristic(deviceServiceRequestCharacteristicUuid, BLEWrite);
+    BLEIntCharacteristic followingLineRequestCharacteristic(deviceServiceRequestCharacteristicUuid, BLEWrite);
 #endif
   
   void setup(){
@@ -57,7 +59,7 @@
 #endif
   }
 #ifdef USE_BLE
-bool enable_line_following = false;
+StatesEnum ble_state = Init;
 #endif
 void loop(){
 #ifdef USE_BLE
@@ -75,11 +77,10 @@ void loop(){
   }
   while(central.connected()){
     if (followingLineRequestCharacteristic.written()) {
-      enable_line_following = followingLineRequestCharacteristic.value();
+      ble_state = StatesEnum(followingLineRequestCharacteristic.value());
+      fsm.set_current_state(ble_state);
     }
-    if (enable_line_following){
-      fsm.update();
-    }
+    fsm.update();
 }
 #else
 fsm.update();

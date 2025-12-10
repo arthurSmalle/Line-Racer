@@ -18,14 +18,14 @@ class RSInit : public RobotState{
       RobotState::motor_cl_l.set_clock_wise(false);
       RobotState::motor_cl_l.enable();
       RobotState::motor_cl_r.enable();
-      delay(2000);
+      motor_cl_l.set_set_point(0);
+      motor_cl_r.set_set_point(0);
     }
 
     // keep looping
     void update() override{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
       Serial.println("Waiting...");
-      this->next_ready = true;
     }
     // add logic for going to next state here
     // this is called when in in main you do:
