@@ -6,9 +6,9 @@
 // include all posible states
 #include "../robot states/RSAdjustOnStraight.h"
 #include "../robot states/RSCurve.h"
-#include "../robot states/RSLineLost.h"
-#include "../robot states/RSTriangle.h"
+#include "../robot states/RSSuperCurve.h"
 #include "../robot states/RSInit.h"
+
 
 class FSM{
   public:

@@ -19,12 +19,17 @@ PIDController RobotState::angle_pid =  PIDController(Kp, Ki, Kd, resolution, tim
 float RobotState::angle = 0;
 float RobotState::angle_error_signal = 0;
 float RobotState::angle_output_signal = 0;
+unsigned long RobotState::adjust_intervals[ADJUST_INTERVAL_SAMPLES] = {}; // store x amount of adjust intervals
+unsigned long RobotState::time_since_last_adjustment = 0;
+int RobotState::adjust_intervals_index = 0;
+unsigned long RobotState::last_adjustment_time = 0;
 
 // overide functions
 void RobotState::update(){
       // make reading for the angle
       angle_controller.update();
       angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
+      update_adjust_time_info(detect_rising_edge(angle_controller.get_ir_triggered()));
 
       // calculate output with the pid
       angle_error_signal = angle;
@@ -33,6 +38,17 @@ void RobotState::update(){
       // update the moters
       motor_cl_l.update();
       motor_cl_r.update();
+    }
+
+// getters
+
+unsigned long RobotState::get_time_since_last_adjustment(){return time_since_last_adjustment;}
+unsigned long RobotState::get_average_adjustment_time(){
+      unsigned long total_time = 0;
+      for (int i = 0; i < ADJUST_INTERVAL_SAMPLES; i++){
+	total_time += adjust_intervals[i];
+      }
+      return (total_time / ADJUST_INTERVAL_SAMPLES);
     }
 
 // extra functions
@@ -58,5 +74,17 @@ bool RobotState::detect_rising_edge(const bool new_edge){
   else{
     this->last_edge = new_edge;
     return false;
+  }
+}
+
+void RobotState::update_adjust_time_info(bool rising_edge){
+  time_since_last_adjustment = millis() - last_adjustment_time;
+  adjust_intervals[adjust_intervals_index] = time_since_last_adjustment;
+  adjust_intervals_index++;
+  if (adjust_intervals_index >= ADJUST_INTERVAL_SAMPLES){
+    adjust_intervals_index = 0;
+  }
+  if (rising_edge){
+    last_adjustment_time = millis();
   }
 }

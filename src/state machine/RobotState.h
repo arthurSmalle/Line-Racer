@@ -5,6 +5,7 @@
 #include "../angle control/AngleController.h"
 #include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
+#define ADJUST_INTERVAL_SAMPLES 3 // amount of adjust intervals
 
 class RobotState: public State{
   public:
@@ -14,6 +15,8 @@ class RobotState: public State{
     float get_angle(){return angle;};
     float get_angle_pid_output(){return angle_output_signal;}
     float get_angle_pid_set_point(){return angle_pid.get_set_point();}
+    unsigned long get_time_since_last_adjustment();
+    unsigned long get_average_adjustment_time();
 
     void set_angle_error(const float error){angle_error_signal = error;}
     void set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
@@ -21,6 +24,7 @@ class RobotState: public State{
     // extra functions
     float time_throttle(float s_max, float s_min, unsigned long start_time, unsigned long end_time);
     bool detect_rising_edge(const bool new_edge);
+    static void update_adjust_time_info(bool rising_edge);
 
     // override functions
     void virtual update() override;
@@ -40,5 +44,9 @@ class RobotState: public State{
     static float angle; // keep track of the angle deviation of the robot
     static float angle_error_signal; // error signal (input for pid) (only angle estimate needed for input, set point will be subtracted automatically)
     static float angle_output_signal; // output of the angle pid
+    static unsigned long adjust_intervals[ADJUST_INTERVAL_SAMPLES]; // store x amount of adjust intervals
+    static unsigned long last_adjustment_time;
+    static unsigned long time_since_last_adjustment;
+    static int adjust_intervals_index;
 };
 #endif

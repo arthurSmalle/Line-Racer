@@ -31,13 +31,9 @@ void FSM::set_current_state(const StatesEnum stateType){
 	   next_state = new RSCurve();
 	   this->current_state_type = Curve;
 	   break;
-	case StatesEnum::LostLine:
-//	   next_state = new RSLineLost();
-	   this->current_state_type = LostLine;
-	   break;
-	case StatesEnum::Triangle:
-	   next_state = new RSTriangle();
-	   this->current_state_type = Triangle;
+	case StatesEnum::SuperCurve:
+	   next_state = new RSSuperCurve();
+	   this->current_state_type = SuperCurve;
 	   break;
 	default:
 	   next_state = new RSInit(StatesEnum::AdjustOnStraight);

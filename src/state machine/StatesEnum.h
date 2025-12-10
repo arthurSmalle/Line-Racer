@@ -1,4 +1,4 @@
 #ifndef STATES_ENUM_H
 #define STATES_ENUM_H
-enum StatesEnum {Init, Curve, WideCurve, AdjustOnStraight, Triangle, LostLine};
+enum StatesEnum {Init, Curve, SuperCurve, AdjustOnStraight};
 #endif

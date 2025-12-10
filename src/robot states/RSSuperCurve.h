@@ -1,0 +1,36 @@
+#ifndef RS_SUPER_CURVE_H 
+#define RS_SUPER_CURVE_H
+#include "state machine/RobotState.h"
+#include "state machine/StatesEnum.h"
+#include <Arduino.h>
+
+class RSSuperCurve : public RobotState{
+  public:
+    RSSuperCurve(){}
+  private:
+    //===========//
+    // variables //
+    //===========//
+    float base_speed = 240;
+    float turn_modifier = 180; 
+    bool straigth_detected = false; // for state transision to curve logic
+    //===========//
+    // functions //
+    //===========//
+
+
+    //====================//
+    // override functions //
+    //====================//
+    void enter() override;
+
+    void update() override;
+
+    // add logic for going to next state here
+    StatesEnum go_next_state() override{
+    }
+
+    static unsigned long time_since_last_adjustment; // detect if still in a curve, otherwise adjust to straight line logic
+    const static unsigned long curve_treshold; // treshold for determining if the robot is in a curve or not
+};
+#endif
