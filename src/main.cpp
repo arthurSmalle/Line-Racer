@@ -22,8 +22,13 @@
   // RSInit * rsinit = new RSInit(StatesEnum::AdjustOnStraight);
   // TSSpeakers * speaker = new TSSpeakers();
   // TSAngleController * anglecontroller = new TSAngleController();
+#ifdef USE_BLE
 RSInit * initial_state = new RSInit(Init);
 FSM fsm = FSM(initial_state);
+#else
+RSCurve * initial_state = new RSCurve();
+FSM fsm = FSM(initial_state);
+#endif
 
   // BLE consts and objects 
 #ifdef USE_BLE

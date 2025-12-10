@@ -3,30 +3,7 @@
 unsigned long RSAdjustOnStraight::time_since_last_adjustment = 0;
 const unsigned long RSAdjustOnStraight::curve_treshold = 1000;
 
-// gives back the speed to throttle the max speed with over time
-// speed - time throttle
-unsigned long start_time;
-float time_throttle(float s_max, float s_min, float time_max){
-  float s_diff = s_max - s_min;
-  float time_diff = float(10^6 *(micros() - start_time));
-  float time_mod = (time_max - time_diff) / time_max;
-  return s_diff * (1 - time_mod);
-}
-
-bool last_edge = false;
-bool detect_rising_edge(const bool new_edge){
-  if ((last_edge == false) and (new_edge == true)){
-    return  true;
-    last_edge = new_edge;
-  }
-  else{
-    return false;
-    last_edge = new_edge;
-  }
-}
-
 void RSAdjustOnStraight::enter(){
-      start_time = micros();
       Serial.println("ENTERED STRAINGADJUST");
       motor_cl_l.set_clock_wise(false);
       motor_cl_l.enable();
