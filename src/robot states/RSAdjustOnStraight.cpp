@@ -18,8 +18,6 @@ void RSAdjustOnStraight::enter(){
   }
 
 void RSAdjustOnStraight::update(){
-  // SETUP SLOWDOWN OVER TIME
-  // float throttled_speed = time_throttle(base_speed, base_speed-50, this->start_time, start_time + 3000);
   // UPDATE MOTORS AND CONTROL
   RobotState::update();
   motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));

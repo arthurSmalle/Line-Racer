@@ -11,8 +11,8 @@ class RSSuperCurve : public RobotState{
     //===========//
     // variables //
     //===========//
-    float base_speed = 80;
-    float turn_modifier = 200; 
+    float base_speed = 40;
+    float turn_modifier = 60; 
     bool curve_detected = false; // for state transision to curve logic
     //===========//
     // functions //

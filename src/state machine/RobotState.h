@@ -5,7 +5,7 @@
 #include "../angle control/AngleController.h"
 #include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
-#define ADJUST_INTERVAL_SAMPLES 4 // amount of adjust intervals
+#define ADJUST_INTERVAL_SAMPLES 2 // amount of adjust intervals
 
 class RobotState: public State{
   public:
@@ -47,6 +47,7 @@ class RobotState: public State{
     static unsigned long adjust_intervals[ADJUST_INTERVAL_SAMPLES]; // store x amount of adjust intervals
     static unsigned long last_adjustment_time;
     static unsigned long time_since_last_adjustment;
+    static unsigned long last_peak_time;
     static int adjust_intervals_index;
 };
 #endif

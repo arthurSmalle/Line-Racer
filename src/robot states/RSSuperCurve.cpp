@@ -7,7 +7,7 @@ void RSSuperCurve::enter(){
   motor_cl_r.enable();
   motor_cl_l.set_set_point(base_speed);
   motor_cl_r.set_set_point(base_speed);
-  angle_pid.set_Kp(15);
+  angle_pid.set_Kp(25);
   angle_pid.set_Ki(0); // default
   angle_pid.set_Kd(0); // default
   }
@@ -18,10 +18,10 @@ void RSSuperCurve::update(){
   motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
   motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
   // STATE TRANSISION DETECTION
-  if (get_average_adjustment_time() < curve_treshold){
-    this->next_ready = true;
-    this->curve_detected = true;
-  }
+  // if (get_average_adjustment_time() < curve_treshold){
+  //   this->next_ready = true;
+  //   this->curve_detected = true;
+  // }
   // DEBUG PRINT
 #ifdef DEBUG
   float p;

@@ -1,7 +1,7 @@
 #include "RSCurve.h"
 #include "state machine/RobotState.h"
 const unsigned long RSCurve::super_curve_treshold = 400;
-const unsigned long RSCurve::straigth_treshold = 230;
+const unsigned long RSCurve::straigth_treshold = 250;
 
 void RSCurve::enter(){
   digitalWrite(13, LOW);
@@ -10,7 +10,7 @@ void RSCurve::enter(){
   motor_cl_r.enable();
   motor_cl_l.set_set_point(base_speed);
   motor_cl_r.set_set_point(base_speed);
-  angle_pid.set_Kp(10);
+  angle_pid.set_Kp(12);
   angle_pid.set_Ki(0); // default
   angle_pid.set_Kd(0); // default
   }
@@ -26,8 +26,8 @@ void RSCurve::update(){
     this->straigth_detected = true;
   }
   // if (get_time_since_last_adjustment() > super_curve_treshold){
-    // this->next_ready = true;
-    // this->super_curve_detected = true;
+  //   this->next_ready = true;
+  //   this->super_curve_detected = true;
   // }
   // DEBUG PRINT
 #ifdef DEBUG
