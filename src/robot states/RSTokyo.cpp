@@ -2,9 +2,6 @@
 #include "state machine/StatesEnum.h"
 #include "../music player/music.h"
 void RSTokyo::enter(){
-#ifdef DEBUG
-  Serial.println("ENTERED SUPERCURVE");
-#endif
   motor_cl_l.set_clock_wise(false);
   motor_cl_r.set_clock_wise(false);
   motor_cl_l.enable();
@@ -13,7 +10,7 @@ void RSTokyo::enter(){
   motor_cl_r.set_set_point(base_speed);
   // MUSIC STUFF
   music_player.set_song(tokyo_melody, tokyo_durations, tokyo_size);
-  music_player.set_loop(true);
+  music_player.set_loop(false);
   music_player.reset();
   music_player.play();
   pinMode(MUSIC_PIN, OUTPUT);
@@ -31,4 +28,5 @@ void RSTokyo::update(){
 }
 
 StatesEnum RSTokyo::go_next_state(){
+  music_player.stop();
 }

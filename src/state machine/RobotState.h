@@ -5,7 +5,7 @@
 #include "../angle control/AngleController.h"
 #include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
-#define ADJUST_INTERVAL_SAMPLES 3 // amount of adjust intervals
+#define ADJUST_INTERVAL_SAMPLES 4 // amount of adjust intervals
 
 class RobotState: public State{
   public:

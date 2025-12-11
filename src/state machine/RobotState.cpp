@@ -78,13 +78,21 @@ bool RobotState::detect_rising_edge(const bool new_edge){
 }
 
 void RobotState::update_adjust_time_info(bool rising_edge){
-  time_since_last_adjustment = millis() - last_adjustment_time;
-  adjust_intervals[adjust_intervals_index] = time_since_last_adjustment;
+  unsigned long new_time_since_last_adjustment = millis() - last_adjustment_time;
+  // check if time since last adjustment smaller then new time
+  if (time_since_last_adjustment < new_time_since_last_adjustment){
+    // only add if bigger to only capture the values above the peaks
+    adjust_intervals[adjust_intervals_index] = time_since_last_adjustment;
+  }
+  // set new time for time since last adjustment
+  time_since_last_adjustment = new_time_since_last_adjustment;
+  // detect if the robot makes a new adjustment
+  if (rising_edge){
+    last_adjustment_time = millis();
+  }
+  // keep track of position in the list for calculating averages
   adjust_intervals_index++;
   if (adjust_intervals_index >= ADJUST_INTERVAL_SAMPLES){
     adjust_intervals_index = 0;
-  }
-  if (rising_edge){
-    last_adjustment_time = millis();
   }
 }

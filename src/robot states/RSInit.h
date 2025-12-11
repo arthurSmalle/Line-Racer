@@ -20,19 +20,22 @@ class RSInit : public RobotState{
       RobotState::motor_cl_r.enable();
       motor_cl_l.set_set_point(0);
       motor_cl_r.set_set_point(0);
+      music_player.stop();
     }
 
     // keep looping
     void update() override{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
-      Serial.println("Waiting...");
+#ifdef DEBUG
+  Serial.println("$$P-auto,00,00,00,00,00");
+  // note: 00 is code for this state (usefull to see in plotting software)
+#endif
     }
     // add logic for going to next state here
     // this is called when in in main you do:
     // ready_go_next = true;
     // this ends the update loop!
     StatesEnum go_next_state() override{
-      Serial.println("Going next state");
       return this->next_state;
     }
 };

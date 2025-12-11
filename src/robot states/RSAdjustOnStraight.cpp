@@ -2,13 +2,11 @@
 #include "RSAdjustOnStraight.h"
 #include "state machine/RobotState.h"
 #include "state machine/StatesEnum.h"
-const unsigned long RSAdjustOnStraight::curve_treshold = 1000;
+const unsigned long RSAdjustOnStraight::curve_treshold = 300;
 
 void RSAdjustOnStraight::enter(){
-#ifdef DEBUG
-  Serial.println("ENTERED STRAINGADJUST");
-#endif
   this->start_time = millis();
+  digitalWrite(13, HIGH);
   motor_cl_l.set_clock_wise(false);
   motor_cl_l.enable();
   motor_cl_r.enable();
@@ -21,11 +19,11 @@ void RSAdjustOnStraight::enter(){
 
 void RSAdjustOnStraight::update(){
   // SETUP SLOWDOWN OVER TIME
-  float throttled_speed = time_throttle(base_speed, base_speed-50, this->start_time, start_time + 3000);
+  // float throttled_speed = time_throttle(base_speed, base_speed-50, this->start_time, start_time + 3000);
   // UPDATE MOTORS AND CONTROL
   RobotState::update();
-  motor_cl_l.set_set_point(throttled_speed + (get_angle_pid_output() * turn_modifier ));
-  motor_cl_r.set_set_point(throttled_speed - (get_angle_pid_output() *turn_modifier));
+  motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
+  motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
   // STATE TRANSISION DETECTION
   if (get_time_since_last_adjustment() > curve_treshold){
     this->next_ready = true;
@@ -35,8 +33,8 @@ void RSAdjustOnStraight::update(){
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+ "," + "30");
-  // note: 10 is code for this state (usefull to see in plotting software)
+  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",30" );
+  // note: 30 is code for this state (usefull to see in plotting software)
 #endif
 }
 

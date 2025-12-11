@@ -2,9 +2,6 @@
 #include "state machine/StatesEnum.h"
 const unsigned long RSSuperCurve::curve_treshold = 1000;
 void RSSuperCurve::enter(){
-#ifdef DEBUG
-  Serial.println("ENTERED SUPERCURVE");
-#endif
   motor_cl_l.set_clock_wise(false);
   motor_cl_l.enable();
   motor_cl_r.enable();
@@ -29,7 +26,7 @@ void RSSuperCurve::update(){
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+ "," + "20");
+  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",20" );
   // note: 20 is code for this state (usefull to see in plotting software)
 #endif
 }
