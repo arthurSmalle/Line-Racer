@@ -31,7 +31,7 @@ void RSAdjustOnStraight::update(){
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",30" );
+  // Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",30" );
   // note: 30 is code for this state (usefull to see in plotting software)
 #endif
 }

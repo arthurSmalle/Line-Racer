@@ -27,7 +27,7 @@ class RSInit : public RobotState{
     void update() override{
       RobotState::update(); // roep dit aan (enkel in update) om de angle telkens up te daten
 #ifdef DEBUG
-  Serial.println("$$P-auto,00,00,00,00,00");
+  // Serial.println("$$P-auto,00,00,00,00,00");
   // note: 00 is code for this state (usefull to see in plotting software)
 #endif
     }
