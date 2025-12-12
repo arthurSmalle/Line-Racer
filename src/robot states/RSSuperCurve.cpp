@@ -5,9 +5,9 @@ void RSSuperCurve::enter(){
   motor_cl_l.set_clock_wise(false);
   motor_cl_l.enable();
   motor_cl_r.enable();
-  motor_cl_l.set_set_point(base_speed);
-  motor_cl_r.set_set_point(base_speed);
-  angle_pid.set_Kp(25);
+  motor_cl_l.set_set_point(0);
+  motor_cl_r.set_set_point(0);
+  angle_pid.set_Kp(20);
   angle_pid.set_Ki(0); // default
   angle_pid.set_Kd(0); // default
   }
@@ -17,6 +17,13 @@ void RSSuperCurve::update(){
   RobotState::update();
   motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
   motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
+  // if (get_angle_pid_output() > 0){
+  //  motor_cl_l.set_set_point(250);
+  //  motor_cl_r.set_set_point(30);
+  // } else {
+  //  motor_cl_l.set_set_point(30);
+  //  motor_cl_r.set_set_point(250);
+  // }
   // STATE TRANSISION DETECTION
   // if (get_average_adjustment_time() < curve_treshold){
   //   this->next_ready = true;
