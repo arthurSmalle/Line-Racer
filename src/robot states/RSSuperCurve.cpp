@@ -3,7 +3,7 @@
 #include "state machine/StatesEnum.h"
 #include <cstdio>
 bool current_angle_edge = false;
-const int RSSuperCurve::curve_big_peak_treshold = 2;
+const int RSSuperCurve::curve_big_peak_treshold = 4;
 void RSSuperCurve::enter(){
   motor_cl_l.set_clock_wise(false);
   motor_cl_l.enable();
