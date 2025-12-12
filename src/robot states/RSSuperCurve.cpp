@@ -28,18 +28,17 @@ void RSSuperCurve::update(){
   // }
   // STATE TRANSISION DETECTION
   if (get_peak_detected()){
-    Serial.println("peak detected");
     update_amount_of_big_peaks();
-  }
-  if (get_amount_of_big_peaks() < curve_big_peak_treshold){
-    this->next_ready = true;
-    this->curve_detected = true;
+    if (get_amount_of_big_peaks() < curve_big_peak_treshold){
+      this->next_ready = true;
+      this->curve_detected = true;
+    }
   }
   // DEBUG PRINT
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  // Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time())+ "," + String(get_amount_of_big_peaks()) + ",20" );
+  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time())+ "," + String(get_amount_of_big_peaks())+ "," + String(get_last_peak()) + ",20" );
   // note: 20 is code for this state (usefull to see in plotting software)
 #endif
 }
@@ -62,7 +61,7 @@ void RSSuperCurve::update_amount_of_big_peaks(){
 }
 
 int RSSuperCurve::get_amount_of_big_peaks(){
-  unsigned long peak_treshhold = 850;
+  unsigned long peak_treshhold = 800;
   if (full_peak_cycle_done){
     int big_peak_count = 0;
     for (int i =0; i < PEAK_MEMORY; i++){

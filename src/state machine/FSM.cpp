@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include "FSM.h"
+#include "robot states/RSEmergency.h"
 #include "state machine/StatesEnum.h"
 
 void FSM::update(){
@@ -37,6 +38,10 @@ void FSM::set_current_state(const StatesEnum stateType){
 	case StatesEnum::Tokyo:
 	   next_state = new RSTokyo();
 	   this->current_state_type = Tokyo;
+	   break;
+	   case StatesEnum::Emergency:
+	   next_state = new RSEmergency();
+	   this->current_state_type = Emergency;
 	   break;
 	default:
 	   next_state = new RSInit(StatesEnum::AdjustOnStraight);

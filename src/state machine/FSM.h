@@ -9,6 +9,7 @@
 #include "../robot states/RSSuperCurve.h"
 #include "../robot states/RSTokyo.h"
 #include "../robot states/RSInit.h"
+#include "../robot states/RSEmergency.h"
 
 
 class FSM{

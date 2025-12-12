@@ -27,6 +27,7 @@ class AngleController{
     unsigned long get_time_since_real_measured(); // get time since the real angle was measured (to avoid using "old" data)
     bool get_is_outside_ir_range(); // get if the real angle is outside the infrared sensor range (meaning the robot goes off track!)
     bool get_ir_triggered(){return this->ir_triggered;}
+    void emergency_flip(){this->real_angle *= -1;}
 
 #ifdef USE_IMU
     // MAGMETER FUNCTIONS //

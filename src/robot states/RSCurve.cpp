@@ -1,6 +1,6 @@
 #include "RSCurve.h"
 #include "state machine/RobotState.h"
-const unsigned long RSCurve::super_curve_treshold = 750;
+const unsigned long RSCurve::super_curve_treshold = 850;
 const unsigned long RSCurve::straigth_treshold = 250;
 
 void RSCurve::enter(){
@@ -25,15 +25,15 @@ void RSCurve::update(){
     this->next_ready = true;
     this->straigth_detected = true;
   }
-  if (get_time_since_last_adjustment() > super_curve_treshold){
-    this->next_ready = true;
-    this->super_curve_detected = true;
-  }
+  // if (get_time_since_last_adjustment() > super_curve_treshold){
+  //   this->next_ready = true;
+  //   this->super_curve_detected = true;
+  // }
   // DEBUG PRINT
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",10" );
+  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time()) + ",00,"+ String(get_last_peak()) + ",10" );
   // note: 10 is code for this state (usefull to see in plotting software)
 #endif
 }
