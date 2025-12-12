@@ -84,6 +84,7 @@ void loop(){
       ble_state = StatesEnum(followingLineRequestCharacteristic.value());
       fsm.set_current_state(ble_state);
     }
+    Serial.println(String(ble_state));
     fsm.update();
 }
 #else

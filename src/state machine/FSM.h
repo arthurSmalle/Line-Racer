@@ -7,8 +7,8 @@
 #include "../robot states/RSAdjustOnStraight.h"
 #include "../robot states/RSCurve.h"
 #include "../robot states/RSSuperCurve.h"
+#include "../robot states/RSTokyo.h"
 #include "../robot states/RSInit.h"
-#include "robot states/RSTokyo.h"
 
 
 class FSM{

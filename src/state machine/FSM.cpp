@@ -37,6 +37,7 @@ void FSM::set_current_state(const StatesEnum stateType){
 	case StatesEnum::Tokyo:
 	   next_state = new RSTokyo();
 	   this->current_state_type = Tokyo;
+	   break;
 	default:
 	   next_state = new RSInit(StatesEnum::AdjustOnStraight);
 	   this->current_state_type = Init;

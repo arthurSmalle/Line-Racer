@@ -3,7 +3,7 @@
 #include "state machine/RobotState.h"
 #include "state machine/StatesEnum.h"
 #include <Arduino.h>
-#define PEAK_MEMORY 5
+#define PEAK_MEMORY 7
 
 class RSSuperCurve : public RobotState{
   public:

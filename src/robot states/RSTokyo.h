@@ -20,6 +20,6 @@ class RSTokyo : public RobotState{
     //====================//
     void enter() override;
     void update() override;
-     StatesEnum go_next_state() override;
+    StatesEnum go_next_state() override;
 };
 #endif

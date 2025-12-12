@@ -1,6 +1,6 @@
 #include "RSCurve.h"
 #include "state machine/RobotState.h"
-const unsigned long RSCurve::super_curve_treshold = 650;
+const unsigned long RSCurve::super_curve_treshold = 750;
 const unsigned long RSCurve::straigth_treshold = 250;
 
 void RSCurve::enter(){
@@ -25,10 +25,10 @@ void RSCurve::update(){
     this->next_ready = true;
     this->straigth_detected = true;
   }
-  // if (get_time_since_last_adjustment() > super_curve_treshold){
-  //   this->next_ready = true;
-  //   this->super_curve_detected = true;
-  // }
+  if (get_time_since_last_adjustment() > super_curve_treshold){
+    this->next_ready = true;
+    this->super_curve_detected = true;
+  }
   // DEBUG PRINT
 #ifdef DEBUG
   float p;
