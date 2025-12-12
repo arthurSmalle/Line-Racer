@@ -19,6 +19,7 @@ void RSSuperCurve::update(){
   // UPDATE MOTORS AND CONTROL
   RobotState::update();
   music_player.update();
+  music_player.update();
   motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
   motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
   // if (get_angle_pid_output() > 0){
@@ -40,7 +41,7 @@ void RSSuperCurve::update(){
 #ifdef DEBUG
   float p;
   p = angle_pid.get_P_out();
-  // Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time())+ "," + String(get_amount_of_big_peaks())+ "," + String(get_last_peak()) + ",20" );
+  Serial.println("$$P-auto," + String(get_angle()) + ","+ String(get_angle_pid_output()) + "," + String(p) + "," + String(get_time_since_last_adjustment())+"," + String(get_average_adjustment_time())+ "," + String(get_amount_of_big_peaks())+ "," + String(get_last_peak()) + ",20" );
   // note: 20 is code for this state (usefull to see in plotting software)
 #endif
 }
@@ -58,10 +59,6 @@ void RSSuperCurve::update_amount_of_big_peaks(){
   } else {
     this->peak_list[this->peak_index] = 700;
   }
-  Serial.println("=====");
-  Serial.println("peak: " +String(peak));
-  Serial.println("peak index: " +String(peak_index));
-  Serial.println("=====");
   this->peak_index++;
   if (this->peak_index >= PEAK_MEMORY){
     this->peak_index = 0;
@@ -74,13 +71,10 @@ int RSSuperCurve::get_amount_of_big_peaks(){
   if (full_peak_cycle_done){
     int big_peak_count = 0;
     for (int i =0; i < PEAK_MEMORY; i++){
-      Serial.println(String(this->peak_list[i]));
       if (this->peak_list[i] >= peak_treshhold){
 	big_peak_count++;
       }
     }
-    Serial.println("Big peaks: " + String(big_peak_count));
-    Serial.println("====================");
     return big_peak_count;
   } else {
     return PEAK_MEMORY;

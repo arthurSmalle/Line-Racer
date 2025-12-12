@@ -3,7 +3,7 @@
 #include <Arduino.h>
 class MusicPlayer{
   public:
-    void set_song(int melody[], const int durations[], const int size, const float pause_modifier = 1.30){
+    void set_song(int melody[], const int durations[], const int size, const float pause_modifier = 0.70){
       this->size = size;
       this->melody = melody;
       this->durations = durations;

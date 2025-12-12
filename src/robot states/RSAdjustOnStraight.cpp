@@ -20,6 +20,7 @@ void RSAdjustOnStraight::enter(){
 void RSAdjustOnStraight::update(){
   // UPDATE MOTORS AND CONTROL
   RobotState::update();
+  music_player.update();
   motor_cl_l.set_set_point(base_speed + (get_angle_pid_output() * turn_modifier ));
   motor_cl_r.set_set_point(base_speed - (get_angle_pid_output() *turn_modifier));
   // STATE TRANSISION DETECTION

@@ -20,7 +20,6 @@ class RSInit : public RobotState{
       RobotState::motor_cl_r.enable();
       motor_cl_l.set_set_point(0);
       motor_cl_r.set_set_point(0);
-      music_player.stop();
     }
 
     // keep looping

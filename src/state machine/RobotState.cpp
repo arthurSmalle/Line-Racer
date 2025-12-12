@@ -85,7 +85,6 @@ void RobotState::update_adjust_time_info(bool rising_edge){
   // detect if the robot makes a new adjustment
   if (rising_edge){
     last_peak_time = new_time_since_last_adjustment;
-    Serial.println("Last peak robot: " + String(last_peak_time));
     last_adjustment_time = millis();
   }
   // check if time since last adjustment smaller then new time
