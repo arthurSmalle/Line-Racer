@@ -25,10 +25,10 @@ void RSCurve::update(){
     this->next_ready = true;
     this->straigth_detected = true;
   }
-  if (get_time_since_last_adjustment() > super_curve_treshold){
-    this->next_ready = true;
-    this->super_curve_detected = true;
-  }
+  // if (get_time_since_last_adjustment() > super_curve_treshold){
+  //   this->next_ready = true;
+  //   this->super_curve_detected = true;
+  // }
   // DEBUG PRINT
 #ifdef DEBUG
   float p;

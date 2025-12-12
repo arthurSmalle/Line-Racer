@@ -5,7 +5,7 @@
 #include "../angle control/AngleController.h"
 #include "../music player/MusicPlayer.h"
 #include "../PID/PIDController.h"
-#define ADJUST_INTERVAL_SAMPLES 2 // amount of adjust intervals
+#define ADJUST_INTERVAL_SAMPLES 6 // amount of adjust intervals
 
 class RobotState: public State{
   public:
@@ -17,6 +17,8 @@ class RobotState: public State{
     float get_angle_pid_set_point(){return angle_pid.get_set_point();}
     unsigned long get_time_since_last_adjustment();
     unsigned long get_average_adjustment_time();
+    unsigned long get_last_peak(){return last_peak_time;}
+    bool get_peak_detected(){return peak_detected;}
 
     void set_angle_error(const float error){angle_error_signal = error;}
     void set_angle_pid_set_point(const float set_point){angle_pid.set_set_point(set_point);}
@@ -49,5 +51,6 @@ class RobotState: public State{
     static unsigned long time_since_last_adjustment;
     static unsigned long last_peak_time;
     static int adjust_intervals_index;
+    static bool peak_detected;
 };
 #endif

@@ -24,13 +24,15 @@ unsigned long RobotState::time_since_last_adjustment = 0;
 int RobotState::adjust_intervals_index = 0;
 unsigned long RobotState::last_adjustment_time = 0;
 unsigned long RobotState::last_peak_time = 0;
+bool RobotState::peak_detected = false;
 
 // overide functions
 void RobotState::update(){
       // make reading for the angle
       angle_controller.update();
       angle = angle_controller.get_real_angle(); // TODO: implement the predicted angle
-      update_adjust_time_info(detect_rising_edge(angle_controller.get_ir_triggered()));
+      peak_detected = detect_rising_edge(angle_controller.get_ir_triggered());
+      update_adjust_time_info(peak_detected);
 
       // calculate output with the pid
       angle_error_signal = angle;
